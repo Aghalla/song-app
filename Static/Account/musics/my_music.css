@@ -1,0 +1,319 @@
+/* ==========================================================================
+   ۱. کانتینر صفحه موسیقی‌های من
+   ========================================================================== */
+.mymusic-page-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto 140px auto;
+    padding: 0 20px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.music-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    width: 100%;
+}
+
+.music-card-square {
+    background: rgba(24, 24, 24, 0.6) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.music-card-square:hover {
+    background: rgba(40, 40, 40, 0.8) !important;
+    border-color: rgba(29, 185, 84, 0.3) !important;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.playing-active {
+    background: rgba(29, 185, 84, 0.1) !important;
+    border-color: rgba(29, 185, 84, 0.5) !important;
+}
+
+.cover-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.track-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-card-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
+}
+
+.music-card-square:hover .play-card-btn, 
+.playing-active .play-card-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card-meta-data {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.text-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.text-details h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+
+.artist-txt {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #b3b3b3;
+    text-align: right;
+}
+
+.genre-txt {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #1db954;
+    background: rgba(29, 185, 84, 0.1);
+    align-self: flex-start;
+    padding: 1px 8px;
+    border-radius: 4px;
+}
+
+.btn-delete-card {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete-card:hover {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* ==========================================================================
+   ۲. قالب بارگذاری دقیق پلیر چسبان شیشه‌ای (کپی مستقیم ساختار لایک‌ها)
+   ========================================================================== */
+.sticky-player-glass {
+    position: fixed !important;
+    bottom: -130px;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    background: rgba(18, 18, 18, 0.96) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 30px;
+    transition: bottom 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999999 !important;
+    direction: ltr !important; /* چپ به راست برای تثبیت ستون‌ها */
+    box-sizing: border-box;
+}
+
+.sticky-player-glass.show { 
+    bottom: 0 !important; 
+}
+
+.close-player-btn {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    color: #a7a7a7;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+.close-player-btn:hover { 
+    color: #ffffff; 
+    transform: rotate(90deg); 
+}
+
+/* توزیع ۳ ستون در عرض پلیر */
+.player-controls-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* چپ، وسط و راست کاملا تفکیک می‌شوند */
+    gap: 20px;
+    width: 100%;
+}
+
+/* 🔊 ساختار بخش صدا (سمت چپ قطعی) */
+.volume-control-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 150px;
+    color: #b3b3b3;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 90px;
+    height: 4px;
+    border-radius: 10px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+/* 🎛️ دکمه‌های ناوبری (مرکز قطعی) */
+.center-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.master-play-pause-btn {
+    background: #ffffff;
+    border: none;
+    color: #121212;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.master-play-pause-btn:hover { 
+    transform: scale(1.06); 
+    background: #1db954; 
+    color: #ffffff; 
+}
+
+.player-seek-btn {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.player-seek-btn:hover { 
+    color: #1db954; 
+    background: rgba(255, 255, 255, 0.05); 
+}
+
+/* 🟢 ساختار تایم لاین زمان (سمت راست قطعی) */
+.custom-timeline-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 500px;
+}
+
+.time-stamp {
+    font-size: 0.8rem;
+    color: #a7a7a7;
+    min-width: 35px;
+    font-family: monospace;
+}
+
+.modern-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    border-radius: 50px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+}
+
+.modern-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* ==========================================================================
+   ۳. واکنش‌گرایی (Responsive)
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .music-grid-layout { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .mymusic-page-wrapper { margin-bottom: 160px; }
+    .music-grid-layout { grid-template-columns: 1fr; gap: 15px; }
+    .player-controls-wrapper { flex-direction: column; gap: 15px; }
+    .volume-control-container { justify-content: center; width: 100%; }
+    .custom-timeline-container { max-width: 100%; width: 100%; }
+}

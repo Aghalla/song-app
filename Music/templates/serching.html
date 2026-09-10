@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}نتایج جستجو{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'form/serching.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="search-page-container">
+    {% if query %}
+        <div class="search-summary-header">
+            <p>یافت شده برای: <span>«{{ query }}»</span></p>
+            <span class="results-count-badge">{{ results.count }} نتیجه</span>
+        </div>
+
+        <div class="search-results-grid">
+            {% for item in results %}
+                <div class="search-result-item-card">
+
+                    <div class="result-type-badge-zone">
+                        {% if item.music_file %}
+                            <span class="badge track-badge">تک موسیقی</span>
+                        {% elif item.username %}
+                            <span class="badge profile-badge">پروفایل</span>
+                        {% else %}
+                            <span class="badge album-badge">آلبوم</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="result-image-container {% if item.username %}circle-avatar{% endif %}">
+                        {% if item.profile_pic %}
+                            <img src="{{ item.profile_pic.url }}" alt="{{ item }}">
+                        {% elif item.cover_picture %}
+                            <img src="{{ item.cover_picture.url }}" alt="{{ item }}">
+                        {% elif item.cover_album %}
+                            <img src="{{ item.cover_album.url }}" alt="{{ item }}">
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}/Media/dfulte/music.png" alt="Default">
+                        {% endif %}
+                    </div>
+
+                    <div class="result-meta-details">
+                        <h2 class="result-main-title">
+                            <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+                        </h2>
+
+                        {% if item.artist_name %}
+                            <p class="result-sub-artist">{{ item.artist_name }}</p>
+                        {% elif item.username %}
+                            <p class="result-sub-artist">@{{ item.username }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="result-action-link">
+                        <a href="{{ item.get_absolute_url }}" class="view-result-btn">
+                            مشاهده
+                        </a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="nothing-found-box">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <p>نتیجه‌ای یافت نشد. لطفا کلمات دیگری را امتحان کنید.</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,259 @@
+/* تنظیمات پایه بر اساس پالت رنگی اسپاتیفای */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #121212; /* مشکی اصلی اسپاتیفای */
+    color: #ffffff; /* متن‌های اصلی سفید خالص */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    min-height: 100vh;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* لینک‌های عمومی به رنگ سبز اسپاتیفای */
+a {
+    color: #1db954; /* سبز رسمی اسپاتیفای */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #1ed760; /* سبز روشن‌تر هنگام هوور */
+}
+
+
+
+
+
+
+/* 🎧 استایل هدر سراسری به سبک شیشه‌ای اسپاتیفای */
+.larg-header {
+    background: rgba(18, 18, 18, 0.8) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    direction: rtl;
+}
+
+/* بخش سمت راست: دکمه آپلود */
+.upload-music {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.btn-upload-nav {
+    background: transparent;
+    border: 1px solid #b3b3b3;
+    color: #ffffff !important;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.btn-upload-nav:hover {
+    border-color: #1db954;
+    color: #1db954 !important;
+    transform: scale(1.03);
+}
+
+/* بخش وسط: نام سایت */
+.title-site {
+    flex: 1;
+    text-align: center;
+}
+
+.title-site h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.title-site h1 a {
+    color: #1db954 !important; /* رنگ سبز امضای اسپاتیفای برای برند سایت */
+    text-shadow: 0 0 15px rgba(29, 185, 84, 0.3);
+}
+
+/* بخش سمت چپ: گروه ناوبری */
+.left-nav-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 22px;
+}
+
+/* باکس سرچ کپسولی مدرن */
+.search-box {
+    position: relative;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-form input[type="text"] {
+    background: #242424;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    padding: 8px 15px 8px 40px; /* پدینگ چپ برای قرارگیری آیکون سرچ */
+    color: #ffffff;
+    font-size: 0.85rem;
+    width: 180px;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.search-form input[type="text"]:focus {
+    background: #2a2a2a;
+    border-color: #535353;
+    width: 220px; /* کمی کشیده‌تر شدن در حالت فوکوس */
+}
+
+.search-btn {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    position: absolute;
+    left: 12px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.search-btn:hover {
+    color: #1db954;
+}
+
+/* آیکون خانه و پروفایل */
+.home-icon a, .profile-avatar-link {
+    color: #b3b3b3;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.home-icon a:hover, .profile-avatar-link:hover {
+    color: #ffffff;
+    transform: scale(1.06);
+}
+
+/* دکمه‌های ورود و ثبت نام در حالت عدم احراز هویت */
+.auth-links {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    font-weight: bold;
+}
+
+.auth-links a {
+    color: #ffffff !important;
+    transition: color 0.2s ease;
+}
+
+.auth-links a:hover {
+    color: #1db954 !important;
+}
+
+/* 📱 ریسپانسیو هدر برای مانیتورهای کوچک و موبایل */
+@media (max-width: 768px) {
+    .larg-header {
+        padding: 12px 15px;
+        flex-wrap: wrap; /* اجازه شکستن المان‌ها در صورت نیاز */
+    }
+
+    .upload-music {
+        order: 1;
+        flex: unset;
+    }
+
+    .title-site {
+        order: 2;
+        flex: unset;
+    }
+
+    .left-nav-group {
+        order: 3;
+        flex: 100%; /* رفتن سرچ و آیکون‌ها به ردیف پایین در موبایل‌های خیلی کوچک در صورت کمبود جا */
+        justify-content: center;
+        margin-top: 10px;
+        gap: 15px;
+    }
+
+    .search-form input[type="text"] {
+        width: 140px;
+    }
+
+    .search-form input[type="text"]:focus {
+        width: 160px;
+    }
+}
+
+/* تنظیمات نوار پخش در پایین بدنه اصلی وب‌سایت */
+.sticky-player-glass {
+    position: fixed;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    background: rgba(18, 18, 18, 0.9) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 15px 30px;
+    transition: bottom 0.3s ease-in-out;
+    z-index: 99999;
+}
+
+.sticky-player-glass.show {
+    bottom: 0;
+}
+
+.player-controls-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.player-seek-btn {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.player-seek-btn:hover {
+    color: #1db954;
+    background: rgba(255, 255, 255, 0.05);
+    transform: scale(1.05);
+}
+
+#globalAudioPlayer {
+    flex: 1;
+    height: 38px;
+    border-radius: 50px;
+    background-color: #282828;
+}

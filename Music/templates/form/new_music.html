@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}create music{% endblock %}
+
+{% block style %}
+     <link rel="stylesheet" type="text/css" href="{% static 'form/new_music.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dark-page-wrapper">
+    <div class="upload-container">
+        <form method="post" enctype="multipart/form-data" id="music-upload-form">
+            {% csrf_token %}
+
+            <!-- کانتینر اصلی برای چیدمان دوقسمتی (راست و چپ) -->
+            <div class="main-flex-container">
+
+                <!-- بخش سمت راست: انتخاب آلبوم -->
+                <div class="right-column">
+                    <div class="album-section card-glass">
+                        <h3>انتخاب آلبوم</h3>
+                        <div class="django-form-fields">
+                            {{ albums_form.as_p }}
+                        </div>
+                        <button type="button" class="btn-secondary-glass">
+                            <a href="{% url 'Music:add_albums' %}">ساخت آلبوم جدید</a>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- بخش سمت چپ: آپلود آهنگ‌ها -->
+                <div class="left-column">
+                    <div class="music-section">
+                        <h3>آپلود آهنگ</h3>
+
+                        {{ formset.management_form }}
+
+                        <div id="formset-container">
+                            {% for form in formset %}
+                                <div class="music-form-row card-glass">
+                                    <h5 class="form-title">آهنگ شماره <span class="form-counter">{{ forloop.counter }}</span></h5>
+                                    <div class="django-form-fields">
+                                        {{ form.as_p }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="button" id="add-more-btn" class="btn-add-more">＋ افزودن آهنگ بیشتر</button>
+                    </div>
+                </div>
+
+            </div> <!-- اتمام کانتینر فکلس -->
+
+            <!-- دکمه ثبت نهایی فرم در پایین کل صفحه -->
+            <div class="submit-container">
+                <button type="submit" class="btn-submit-main">آپلود نهایی</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const container = document.querySelector("#formset-container");
+    const addMoreBtn = document.querySelector("#add-more-btn");
+    const totalForms = document.querySelector("#id_musics-TOTAL_FORMS") || document.querySelector("[id$='TOTAL_FORMS']");
+
+    addMoreBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const currentForms = document.querySelectorAll(".music-form-row");
+        const currentFormCount = currentForms.length;
+
+        // ۱. پیدا کردن آخرین فرم موجود قبل از ایجاد فرم جدید جهت گرفتن مقدار ژانر آن
+        const lastForm = currentForms[currentFormCount - 1];
+        // پیدا کردن تگ select مربوط به ژانر در آخرین فرم (فرض بر این است که نام فیلد شامل 'genre' است)
+        const lastGenreSelect = lastForm ? lastForm.querySelector("select[name*='genre']") : null;
+        const lastGenreValue = lastGenreSelect ? lastGenreSelect.value : "";
+
+        // ۲. کپی کردن فرم اول برای ساخت فرم جدید
+        const newForm = currentForms[0].cloneNode(true);
+
+        const formRegex = RegExp(`musics-(\\d+)-`, 'g');
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `musics-${currentFormCount}-`);
+
+        // ۳. خالی کردن مقادیر فیلدها بجز مواردی که می‌خواهیم حفظ شوند
+        newForm.querySelectorAll("input:not([type=button]):not([type=submit]), select, textarea").forEach(input => {
+            if (input.type === "checkbox") {
+                input.checked = false;
+            } else {
+                input.value = "";
+            }
+        });
+
+        // ۴. اعمال مقدار ژانر قبلی روی فرم جدید
+        const newGenreSelect = newForm.querySelector("select[name*='genre']");
+        if (newGenreSelect && lastGenreValue) {
+            newGenreSelect.value = lastGenreValue;
+        }
+
+        // ۵. به‌روزرسانی شمارنده و افزودن به صفحه
+        newForm.querySelector(".form-counter").textContent = currentFormCount + 1;
+        container.appendChild(newForm);
+
+        if(totalForms) {
+            totalForms.setAttribute('value', currentFormCount + 1);
+        }
+    });
+</script>
+{% endblock %}

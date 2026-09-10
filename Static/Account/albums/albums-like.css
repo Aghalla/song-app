@@ -1,0 +1,555 @@
+/* ==========================================================================
+   ۱. ریشه اصلی و هدرهای صفحات آلبوم پروژه‌ SuniQ
+   ========================================================================== */
+.mymusic-page-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 40px auto 140px auto; /* مارجین پایین برای عدم تداخل با پلیر چسبان */
+    padding: 0 30px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+/* هدر متنی ساده (استفاده شده در صفحه آلبوم‌های موردعلاقه) */
+.album-page-header {
+    text-align: right;
+    margin-bottom: 35px;
+}
+
+.album-page-header h1 {
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin: 0 0 8px 0;
+}
+
+.album-page-header .sub-title {
+    font-size: 0.95rem;
+    color: #b3b3b3;
+    margin: 0;
+}
+
+/* هدر کارتی افقی و بزرگ (استفاده شده در صفحه جزئیات آلبوم) */
+.album-page-header-card {
+    background: rgba(32, 32, 32, 0.5) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.album-main-cover-box {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    flex-shrink: 0;
+}
+
+.album-large-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.album-info-details-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.album-badge-label {
+    font-size: 0.8rem;
+    color: #1db954;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.album-info-details-text h1 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+}
+
+.album-artist-sub {
+    font-size: 1.05rem;
+    color: #b3b3b3;
+    margin: 0;
+}
+
+
+/* ==========================================================================
+   ۲. شبکه‌بندی (Grid) آلبوم‌ها - ۳ تایی در هر ردیف (صفحه Favorites)
+   ========================================================================== */
+.albums-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.album-card {
+    background: rgba(24, 24, 24, 0.6) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.album-card:hover {
+    background: rgba(40, 40, 40, 0.8) !important;
+    border-color: rgba(29, 185, 84, 0.3) !important;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cover-container {
+    width: 100%;
+    aspect-ratio: 1 / 1 !important;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    background: #181818;
+}
+
+.track-cover {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.4s ease;
+}
+
+.album-card:hover .track-cover {
+    transform: scale(1.04);
+}
+
+/* دکمه دایره‌ای روی کاور آلبوم‌ها */
+.play-card-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.album-card:hover .play-card-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.play-card-btn:hover {
+    background: #1ed760;
+    transform: scale(1.05);
+}
+
+/* اطلاعات متنی کارت گرید */
+.card-meta-data {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.text-details {
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.text-details h2 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s;
+    text-align: right;
+}
+
+.text-details a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.text-details h2:hover {
+    color: #1db954;
+}
+
+.artist-name {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+
+.uploader-txt {
+    margin: 2px 0 0 0;
+    font-size: 0.8rem;
+    color: #7f7f7f;
+    text-align: right;
+}
+
+.uploader-txt a {
+    color: #1db954;
+    text-decoration: none;
+}
+
+.uploader-txt a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==========================================================================
+   ۳. ساختار لیست ردیف‌های شیشه‌ای عمودی آهنگ‌ها (صفحه جزئیات آلبوم)
+   ========================================================================== */
+.music-list-vertical-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.archive-rectangle-music-card {
+    background: rgba(30, 30, 30, 0.4) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-radius: 10px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.archive-rectangle-music-card:hover {
+    background: rgba(45, 45, 45, 0.6) !important;
+    border-color: rgba(29, 185, 84, 0.25) !important;
+}
+
+.track-right-side-flex {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.music-cover-wrapper {
+    width: 55px;
+    height: 55px;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #121212;
+    flex-shrink: 0;
+}
+
+.main-track-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.music-meta-details-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.music-meta-details-box h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #ffffff;
+    text-align: right;
+}
+
+.artist-txt {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #b3b3b3;
+    text-align: right;
+}
+
+/* دکمه کوچک پلی روی کاور ردیف */
+.quick-play-hover-btn {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.archive-rectangle-music-card:hover .quick-play-hover-btn {
+    opacity: 1;
+}
+
+/* دکمه بزرگ سمت چپ ردیف آهنگ */
+.suniq-row-play-trigger {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.suniq-row-play-trigger:hover {
+    color: #1db954;
+    transform: scale(1.08);
+}
+
+/* کلاس وضعیت در حال پخش */
+.playing-active {
+    background: rgba(29, 185, 84, 0.1) !important;
+    border-color: rgba(29, 185, 84, 0.4) !important;
+}
+
+.playing-active .suniq-row-play-trigger {
+    color: #1db954;
+}
+
+
+/* ==========================================================================
+   ۴. قالب دقیق پلیر چسبان ۳ بخشی شیشه‌ای SuniQ
+   ========================================================================== */
+.sticky-player-glass {
+    position: fixed !important;
+    bottom: -130px;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    background: rgba(18, 18, 18, 0.96) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 30px;
+    transition: bottom 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999999 !important;
+    direction: ltr !important; /* چپ به راست برای توازن لغزنده‌ها */
+    box-sizing: border-box;
+}
+
+.sticky-player-glass.show {
+    bottom: 0 !important;
+}
+
+.close-player-btn {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    color: #a7a7a7;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-player-btn:hover {
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.player-controls-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+/* 🔊 بخش ولوم صدا (سمت چپ) */
+.volume-control-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 150px;
+    color: #b3b3b3;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 90px;
+    height: 4px;
+    border-radius: 10px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+/* 🎛️ دکمه‌های کنترل و ناوبری (مرکز) */
+.center-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.master-play-pause-btn {
+    background: #ffffff;
+    border: none;
+    color: #121212;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.master-play-pause-btn:hover {
+    transform: scale(1.06);
+    background: #1db954;
+    color: #ffffff;
+}
+
+.player-seek-btn {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.player-seek-btn:hover {
+    color: #1db954;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 🟢 نوار پیشرفت زمانی تایم‌لاین (سمت راست) */
+.custom-timeline-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 500px;
+}
+
+.time-stamp {
+    font-size: 0.8rem;
+    color: #a7a7a7;
+    min-width: 35px;
+    font-family: monospace;
+}
+
+.modern-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    border-radius: 50px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+}
+
+.modern-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+
+/* ==========================================================================
+   ۵. پیام‌های خالی و مدیا کوئری‌های ریسپانسیو
+   ========================================================================== */
+.empty-msg, .empty-archive-msg {
+    color: #b3b3b3;
+    font-size: 0.95rem;
+    grid-column: span 3;
+    text-align: center;
+    padding: 50px;
+    width: 100%;
+}
+
+@media (max-width: 1100px) {
+    .albums-grid-container { grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .empty-msg { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
+    .mymusic-page-wrapper { padding: 0 15px; margin: 20px auto 160px auto; }
+    .album-page-header h1 { font-size: 1.5rem; text-align: center; }
+    .album-page-header .sub-title { text-align: center; }
+
+    .album-page-header-card {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        padding: 20px;
+    }
+    .album-info-details-text { align-items: center; }
+    .album-info-details-text h1 { font-size: 1.6rem; }
+
+    .albums-grid-container { grid-template-columns: 1fr; gap: 20px; }
+    .empty-msg { grid-column: span 1; }
+    .album-card { padding: 16px; }
+
+    .player-controls-wrapper { flex-direction: column; gap: 15px; }
+    .volume-control-container { justify-content: center; width: 100%; }
+    .custom-timeline-container { max-width: 100%; width: 100%; }
+}

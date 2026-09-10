@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ویرایش پروفایل{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Account/profile/edit_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="profile-page-wrapper">
+        <div class="profile-top-header">
+            <h1>ویرایش پروفایل شما</h1>
+            <p class="sub-title">اطلاعات کاربری خود را در دیتابیس SuniQ به‌روزرسانی کنید</p>
+        </div>
+
+        <div class="profile-form-container">
+            <form method="post" enctype="multipart/form-data" class="modern-profile-form">
+                {% csrf_token %}
+
+                <div class="profile-pic-section">
+                    <div class="avatar-preview-wrapper">
+                        {% if request.user.profile_pic %}
+                            <img src="{{ request.user.profile_pic.url }}" alt="عکس پروفایل فعلی" class="current-avatar">
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}/Media/dfulte/user-placeholder.png" alt="بدون عکس" class="current-avatar">
+                        {% endif %}
+                    </div>
+
+                    <div class="avatar-controls">
+                        <label for="id_profile_pic" class="custom-file-upload">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4M17 8l-5-5-5 5M12 3v12"/>
+                            </svg>
+                            بارگذاری عکس جدید
+                        </label>
+                        <input type="file" name="profile_pic" id="id_profile_pic" class="hidden-file-input">
+
+                        {% if request.user.profile_pic %}
+                            <div class="delete-checkbox-wrapper">
+                                <label class="delete-label">
+                                    {{ user_form.delete_profile }}
+                                    <span>حذف عکس فعلی</span>
+                                </label>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if user_form.profile_pic.errors %}
+                        <div class="field-error-msg">
+                            {% for error in user_form.profile_pic.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-divider"><hr></div>
+
+                <div class="form-grid-layout">
+                    <div class="form-field-group username">
+                        <label for="{{ user_form.username.id_for_label }}">نام کاربری</label>
+                        {{ user_form.username }}
+                        {% if user_form.username.errors %}
+                            <span class="field-error-msg">{{ user_form.username.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field-group phone_num">
+                        <label for="{{ user_form.phone.id_for_label }}">شماره همراه</label>
+                        {{ user_form.phone }}
+                        {% if user_form.phone.errors %}
+                            <span class="field-error-msg">{{ user_form.phone.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field-group email">
+                        <label for="{{ user_form.email.id_for_label }}">ایمیل</label>
+                        {{ user_form.email }}
+                        {% if user_form.email.errors %}
+                            <span class="field-error-msg">{{ user_form.email.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field-group first-name">
+                        <label for="{{ user_form.first_name.id_for_label }}">نام</label>
+                        {{ user_form.first_name }}
+                        {% if user_form.first_name.errors %}
+                            <span class="field-error-msg">{{ user_form.first_name.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field-group last-name">
+                        <label for="{{ user_form.last_name.id_for_label }}">نام خانوادگی</label>
+                        {{ user_form.last_name }}
+                        {% if user_form.last_name.errors %}
+                            <span class="field-error-msg">{{ user_form.last_name.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-field-group bio full-width">
+                        <label for="{{ user_form.bio.id_for_label }}">بیوگرافی</label>
+                        {{ user_form.bio }}
+                        {% if user_form.bio.errors %}
+                            <span class="field-error-msg">{{ user_form.bio.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="profile-form-actions">
+                    <button type="submit" class="action-btn save-btn">ذخیره تغییرات</button>
+                    <a href="#" class="action-btn password-btn-link">
+                        <button type="button" class="action-btn password-btn">تغییر رمز عبور</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

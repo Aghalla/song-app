@@ -1,0 +1,369 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}آلبوم {{ album.title }}{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'albums/dtails.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="album-page-wrapper">
+
+        <div class="album-header-rectangle-card">
+            <div class="main-card-right-side">
+                <div class="main-cover-box">
+                    {% if album.cover_album %}
+                        <img src="{{ album.cover_album.url }}" alt="{{ album.title }}">
+                    {% else %}
+                        <img src="{{ MEDIA_URL }}/Media/dfulte/Album.jpg" alt="کاور آلبوم">
+                    {% endif %}
+                </div>
+                <div class="main-details-box">
+                    <span class="genre-badge">آلبوم موسیقی</span>
+                    <h1>{{ album.title }}</h1>
+
+
+
+                    <div class="uploader-and-time">
+                        <span>آپلودکننده:</span>
+                        <a href="{% url 'Music:profile-username' album.user.username %}">{{ album.user }}</a>
+                        <span class="divider-dot">•</span>
+                        <span>تعداد قطعات: {{ musics|length }} آهنگ</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if request.user != album.user %}
+                <div class="main-card-left-side">
+                    <button class="save-button album-save-action-btn" data-album-id="{{ album.id }}" title="ذخیره آلبوم">
+                        <span class="save-text">
+                            {% if request.user in album.saved_by.all %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14 2a5 5 0 0 1 5 5v14a1 1 0 0 1 -1.555 .832l-5.445 -3.63l-5.444 3.63a1 1 0 0 1 -1.55 -.72l-.006 -.112v-14a5 5 0 0 1 5 -5h4z"/>
+                                </svg>
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"/>
+                                </svg>
+                            {% endif %}
+                        </span>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="album-tracks-section">
+            <div class="section-title-area">
+                <h2>قطعات این آلبوم</h2>
+            </div>
+
+            <div class="album-tracks-triple-grid">
+                {% for music in musics %}
+                    <div class="track album-rectangle-track-card" data-url="{{ music.music_file.url }}" data-title="{{ music.title }}">
+                        <div class="cover-container">
+                            {% if music.cover_picture %}
+                                <img src="{{ music.cover_picture.url }}" alt="{{ music.title }}" class="track-cover">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}/Media/dfulte/music.png" alt="Default" class="track-cover">
+                            {% endif %}
+                            <button type="button" class="play-card-btn" title="پخش">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="card-meta-data">
+                            <div class="text-details">
+                                <h2>{{ music.title }}</h2>
+                                <p>{% if music.artist_name %}{{ music.artist_name }}{% else %}{{ album.artist_name }}{% endif %}</p>
+                            </div>
+
+                            <div class="like-action-wrapper">
+                                <button class="like-button mini-heart" data-music-id="{{ music.id }}" style="{% if request.user in music.likes.all %}color: #ef4444;{% else %}color: #b3b3b3;{% endif %}">
+                                    <span class="heart-icon">
+                                        {% if request.user in music.likes.all %}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                        {% else %}
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                        {% endif %}
+                                    </span>
+                                    <span class="likes-count">{{ music.totall_likes }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="empty-msg">هیچ موسیقی برای این آلبوم ثبت نشده است.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+    <div id="sticky-audio" class="sticky-player-glass">
+        <button type="button" id="closePlayerBtn" class="close-player-btn" title="بستن پلیر">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <audio id="player" preload="auto"></audio>
+
+        <div class="player-controls-wrapper">
+
+            <div class="volume-control-container">
+                <svg id="volumeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="0.8">
+            </div>
+
+            <div class="center-nav-buttons">
+                <button type="button" id="prevBtn" class="player-seek-btn" title="آهنگ قبلی">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                    </svg>
+                </button>
+
+                <button type="button" id="backBtn" class="player-seek-btn" title="۱۰ ثانیه عقب">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                        <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                    </svg>
+                </button>
+
+                <button type="button" id="masterPlayPauseBtn" class="master-play-pause-btn" title="پخش / توقف">
+                    <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"></path>
+                    </svg>
+                    <svg id="pauseIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
+                    </svg>
+                </button>
+
+                <button type="button" id="forwardBtn" class="player-seek-btn" title="۱۰ ثانیه جلو">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                        <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                    </svg>
+                </button>
+
+                <button type="button" id="nextBtn" class="player-seek-btn" title="آهنگ بعدی">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="custom-timeline-container">
+                <span id="currentTimeText" class="time-stamp">0:00</span>
+                <input type="range" id="timelineSlider" class="modern-slider" min="0" value="0" step="0.1">
+                <span id="durationTimeText" class="time-stamp">0:00</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById("player");
+        const tracks = Array.from(document.querySelectorAll(".track"));
+        const backBtn = document.getElementById("backBtn");
+        const forwardBtn = document.getElementById("forwardBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const stickyAudio = document.getElementById("sticky-audio");
+        const closePlayerBtn = document.getElementById("closePlayerBtn");
+
+        const masterPlayPauseBtn = document.getElementById("masterPlayPauseBtn");
+        const playIcon = document.getElementById("playIcon");
+        const pauseIcon = document.getElementById("pauseIcon");
+
+        const timelineSlider = document.getElementById("timelineSlider");
+        const currentTimeText = document.getElementById("currentTimeText");
+        const durationTimeText = document.getElementById("durationTimeText");
+
+        const volumeSlider = document.getElementById("volumeSlider");
+        const volumeIcon = document.getElementById("volumeIcon");
+
+        let index = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updatePlayPauseUI() {
+            if (player.paused) {
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+            } else {
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+            }
+        }
+
+        function playIndex(i) {
+            if (tracks.length === 0) return;
+            tracks.forEach(t => t.classList.remove("playing-active"));
+
+            index = i;
+            const currentTrack = tracks[index];
+            const url = currentTrack.dataset.url;
+
+            player.src = url;
+            player.load();
+
+            player.onloadedmetadata = function () {
+                timelineSlider.max = player.duration;
+                durationTimeText.textContent = formatTime(player.duration);
+                player.play();
+            };
+
+            currentTrack.classList.add("playing-active");
+            stickyAudio.classList.add("show");
+        }
+
+        tracks.forEach((t, i) => {
+            t.querySelector(".play-card-btn")?.addEventListener("click", () => playIndex(i));
+        });
+
+        masterPlayPauseBtn.addEventListener("click", () => {
+            if (player.src) {
+                if (player.paused) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+            }
+        });
+
+        player.addEventListener("play", updatePlayPauseUI);
+        player.addEventListener("pause", updatePlayPauseUI);
+
+        player.addEventListener("timeupdate", () => {
+            if (!timelineSlider.classList.contains("user-seeking")) {
+                timelineSlider.value = player.currentTime;
+                currentTimeText.textContent = formatTime(player.currentTime);
+                const progress = (player.currentTime / player.duration) * 100;
+                timelineSlider.style.background = `linear-gradient(to right, #1db954 ${progress}%, #535353 ${progress}%)`;
+            }
+        });
+
+        timelineSlider.addEventListener("input", () => {
+            timelineSlider.classList.add("user-seeking");
+            currentTimeText.textContent = formatTime(timelineSlider.value);
+        });
+
+        timelineSlider.addEventListener("change", () => {
+            player.currentTime = timelineSlider.value;
+            timelineSlider.classList.remove("user-seeking");
+        });
+
+        // هماهنگ‌سازی و بارگذاری پویای لایه صدای پلیر
+        player.volume = volumeSlider.value;
+        volumeSlider.style.background = `linear-gradient(to right, #1db954 ${volumeSlider.value * 100}%, #535353 ${volumeSlider.value * 100}%)`;
+
+        volumeSlider.addEventListener("input", (e) => {
+            const currentVol = e.target.value;
+            player.volume = currentVol;
+            volumeSlider.style.background = `linear-gradient(to right, #1db954 ${currentVol * 100}%, #535353 ${currentVol * 100}%)`;
+
+            if(currentVol == 0) {
+                volumeIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>`;
+            } else {
+                volumeIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
+            }
+        });
+
+        backBtn.addEventListener("click", () => {
+            if (player.readyState >= 1) player.currentTime = Math.max(0, player.currentTime - 10);
+        });
+
+        forwardBtn.addEventListener("click", () => {
+            if (player.readyState >= 1 && player.duration) player.currentTime = Math.min(player.duration, player.currentTime + 10);
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if (tracks.length === 0) return;
+            const nextIndex = (index + 1) % tracks.length;
+            playIndex(nextIndex);
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (tracks.length === 0) return;
+            const prevIndex = (index - 1 + tracks.length) % tracks.length;
+            playIndex(prevIndex);
+        });
+
+        player.addEventListener("ended", () => {
+            nextBtn.click();
+        });
+
+        closePlayerBtn.addEventListener("click", () => {
+            player.pause();
+            player.currentTime = 0;
+            stickyAudio.classList.remove("show");
+            tracks.forEach(t => t.classList.remove("playing-active"));
+        });
+
+        const csrftoken = "{{ csrf_token }}";
+
+        // اسکریپت لایک موزیک‌ها
+        document.querySelectorAll(".like-button").forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const musicId = this.dataset.musicId;
+                const heartIconContainer = this.querySelector(".heart-icon");
+
+                fetch(`/music/${musicId}/like/`, {
+                    method: "POST",
+                    headers: {"X-CSRFToken": csrftoken}
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const count = this.querySelector(".likes-count");
+                        if (count) count.textContent = data.likes_count;
+
+                        if (heartIconContainer) {
+                            if (data.liked) {
+                                this.style.color = '#ef4444';
+                                heartIconContainer.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+                            } else {
+                                this.style.color = '#b3b3b3';
+                                heartIconContainer.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+                            }
+                        }
+                    });
+            });
+        });
+
+        // اسکریپت سیو آلبوم
+        document.querySelectorAll(".save-button").forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                const albumId = this.dataset.albumId;
+                const icon = this.querySelector(".save-text");
+
+                fetch(`/album/${albumId}/save/`, {
+                    method: "POST",
+                    headers: {"X-CSRFToken": csrftoken}
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.saved) {
+                            icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2a5 5 0 0 1 5 5v14a1 1 0 0 1 -1.555 .832l-5.445 -3.63l-5.444 3.63a1 1 0 0 1 -1.55 -.72v-14a5 5 0 0 1 5 -5h4z"/></svg>`;
+                        } else {
+                            icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"/></svg>`;
+                        }
+                    });
+            });
+        });
+    </script>
+{% endblock %}

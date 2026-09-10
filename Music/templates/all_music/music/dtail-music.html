@@ -1,0 +1,460 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ music.title }}{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'music/dtail_music.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="mymusic-page-wrapper">
+        <div class="larg">
+
+            <div class="main-music-rectangle-card">
+                <div class="main-card-right-side">
+                    <div class="main-cover-box">
+                        {% if music.cover_picture %}
+                            <img src="{{ music.cover_picture.url }}" alt="cover-pic">
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}/Media/dfulte/music.png" alt="cover-pic">
+                        {% endif %}
+                    </div>
+
+                    <div class="main-details-box">
+                        <span class="genre-badge">{{ music.genre }}</span>
+                        <h1>{{ music.title }}</h1>
+                        <p class="artist-name-txt">{{ music.artist_name|default:"خواننده ناشناس" }}</p>
+
+                        <div class="uploader-and-time">
+                            <span>آپلودر: <a
+                                    href="{% url 'Music:profile-username' music.uploader %}">{{ music.uploader }}</a></span>
+                            <span class="divider-dot">•</span>
+                            <span>زمان: {{ music.time }} ثانیه</span>
+                        </div>
+
+                        <div class="like-container-main">
+                            <button class="like-button main-heart-btn" data-music-id="{{ music.id }}">
+                                <span class="heart-icon">
+                                    {% if request.user in music.likes.all %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="#ef4444" stroke="#b91c1c" stroke-width="2"><path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    {% else %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    {% endif %}
+                                 </span>
+                                <span class="likes-count">{{ music.totall_likes }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-card-left-side">
+                    <div class="track main-track-bridge" data-url="{{ music.music_file.url }}"
+                         data-title="{{ music.title }}">
+                        <button type="button" class="play-card-btn force-visible-btn" title="پخش آهنگ اصلی">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                 fill="currentColor">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space1">
+                <hr>
+            </div>
+
+            <div class="sliders-container">
+
+                <div class="slider-section-wrapper">
+                    <div class="section-header">
+                        <h2>بقیه آهنگ‌های این کاربر</h2>
+                        <div class="slider-navigation-btns">
+                            <button type="button" class="slide-nav-btn next-slide" title="بعدی">&#10094;</button>
+                            <button type="button" class="slide-nav-btn prev-slide" title="قبلی">&#10095;</button>
+                        </div>
+                    </div>
+                    <div class="slider-viewport">
+                        <div class="horizontal-music-track">
+                            {% for music in user_UP %}
+                                <div class="track music-card-square" data-url="{{ music.music_file.url }}"
+                                     data-title="{{ music.title }}">
+                                    <div class="cover-container">
+                                        <img src="
+                                                {% if music.cover_picture %}{{ music.cover_picture.url }}{% else %}{{ MEDIA_URL }}/Media/dfulte/music.png{% endif %}"
+                                             alt="Cover" class="track-cover">
+                                        <button type="button" class="play-card-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                 viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="card-meta-data">
+                                        <div class="text-details">
+                                            <a href="{% url 'Music:musics_detail' music.title music.id %}">
+                                                <h2>{{ music.title }}</h2></a>
+                                            <p>{{ music.artist_name|default:music.uploader }}</p>
+                                            <p>{{ music.genre }}</p>
+                                            <p><span>زمان: {{ music.time }} ثانیه</span></p>
+
+                                        </div>
+                                        <button class="like-button mini-heart" data-music-id="{{ music.id }}"
+                                                style="{% if request.user in music.likes.all %}color: #ef4444;{% else %}color: #b3b3b3;{% endif %}">
+                                            <span class="likes-count">{{ music.totall_likes }}</span> ♥
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p class="empty-msg">هیچ موسیقی یافت نشد</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slider-section-wrapper">
+                    <div class="section-header">
+                        <h2>بقیه آهنگ‌های این خواننده</h2>
+                        <div class="slider-navigation-btns">
+                            <button type="button" class="slide-nav-btn next-slide" title="بعدی">&#10094;</button>
+                            <button type="button" class="slide-nav-btn prev-slide" title="قبلی">&#10095;</button>
+                        </div>
+                    </div>
+                    <div class="slider-viewport">
+                        <div class="horizontal-music-track">
+                            {% for music in all_artist_name %}
+                                <div class="track music-card-square" data-url="{{ music.music_file.url }}"
+                                     data-title="{{ music.title }}">
+                                    <div class="cover-container">
+                                        <img src="
+                                                {% if music.cover_picture %}{{ music.cover_picture.url }}{% else %}{{ MEDIA_URL }}/Media/dfulte/music.png{% endif %}"
+                                             alt="Cover" class="track-cover">
+                                        <button type="button" class="play-card-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                 viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="card-meta-data">
+                                        <div class="text-details">
+                                            <a href="{% url 'Music:musics_detail' music.title music.id %}">
+                                                <h2>{{ music.title }}</h2></a>
+                                            <p>{{ music.artist_name|default:music.uploader }}</p>
+                                            <p>{{ music.genre }}</p>
+                                             <p><span>زمان: {{ music.time }} ثانیه</span></p>
+                                        </div>
+                                        <button class="like-button mini-heart" data-music-id="{{ music.id }}"
+                                                style="{% if request.user in music.likes.all %}color: #ef4444;{% else %}color: #b3b3b3;{% endif %}">
+                                            <span class="likes-count">{{ music.totall_likes }}</span> ♥
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p class="empty-msg">هیچ موسیقی یافت نشد</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slider-section-wrapper">
+                    <div class="section-header">
+                        <h2>در همین سبک</h2>
+                        <div class="slider-navigation-btns">
+                            <button type="button" class="slide-nav-btn next-slide" title="بعدی">&#10094;</button>
+                            <button type="button" class="slide-nav-btn prev-slide" title="قبلی">&#10095;</button>
+                        </div>
+                    </div>
+                    <div class="slider-viewport">
+                        <div class="horizontal-music-track">
+                            {% for music in proposal_gener %}
+                                <div class="track music-card-square" data-url="{{ music.music_file.url }}"
+                                     data-title="{{ music.title }}">
+                                    <div class="cover-container">
+                                        <img src="
+                                                {% if music.cover_picture %}{{ music.cover_picture.url }}{% else %}{{ MEDIA_URL }}/Media/dfulte/music.png{% endif %}"
+                                             alt="Cover" class="track-cover">
+                                        <button type="button" class="play-card-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                 viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="card-meta-data">
+                                        <div class="text-details">
+                                            <a href="{% url 'Music:musics_detail' music.title music.id %}">
+                                                <h2>{{ music.title }}</h2></a>
+                                            <p>{{ music.artist_name|default:music.uploader }}</p>
+                                            <p>{{ music.genre }}</p>
+                                             <p><span>زمان: {{ music.time }} ثانیه</span></p>
+                                        </div>
+                                        <button class="like-button mini-heart" data-music-id="{{ music.id }}"
+                                                style="{% if request.user in music.likes.all %}color: #ef4444;{% else %}color: #b3b3b3;{% endif %}">
+                                            <span class="likes-count">{{ music.totall_likes }}</span> ♥
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p class="empty-msg">هیچ موسیقی یافت نشد</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="sticky-audio" class="sticky-player-glass">
+                <button type="button" id="closePlayerBtn" class="close-player-btn" title="بستن پلیر">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                <audio id="player" preload="auto"></audio>
+
+                <div class="player-controls-wrapper">
+                    <button type="button" id="prevBtn" class="player-seek-btn" title="آهنگ قبلی">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                        </svg>
+                    </button>
+
+                    <button type="button" id="backBtn" class="player-seek-btn" title="۱۰ ثانیه عقب">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2">
+                            <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                            <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                        </svg>
+                    </button>
+
+                    <button type="button" id="masterPlayPauseBtn" class="master-play-pause-btn" title="پخش / توقف">
+                        <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"></path>
+                        </svg>
+                        <svg id="pauseIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+                             style="display:none;">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
+                        </svg>
+                    </button>
+
+                    <div class="custom-timeline-container">
+                        <span id="currentTimeText" class="time-stamp">0:00</span>
+                        <input type="range" id="timelineSlider" class="modern-slider" min="0" value="0" step="0.1">
+                        <span id="durationTimeText" class="time-stamp">0:00</span>
+                    </div>
+
+                    <button type="button" id="forwardBtn" class="player-seek-btn" title="۱۰ ثانیه جلو">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2">
+                            <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                            <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                        </svg>
+                    </button>
+
+                    <button type="button" id="nextBtn" class="player-seek-btn" title="آهنگ بعدی">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById("player");
+        const tracks = Array.from(document.querySelectorAll(".track"));
+        const backBtn = document.getElementById("backBtn");
+        const forwardBtn = document.getElementById("forwardBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const stickyAudio = document.getElementById("sticky-audio");
+        const closePlayerBtn = document.getElementById("closePlayerBtn");
+
+        const masterPlayPauseBtn = document.getElementById("masterPlayPauseBtn");
+        const playIcon = document.getElementById("playIcon");
+        const pauseIcon = document.getElementById("pauseIcon");
+
+        const timelineSlider = document.getElementById("timelineSlider");
+        const currentTimeText = document.getElementById("currentTimeText");
+        const durationTimeText = document.getElementById("durationTimeText");
+
+        let index = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updatePlayPauseUI() {
+            if (player.paused) {
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+            } else {
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+            }
+        }
+
+        function playIndex(i) {
+            tracks.forEach(t => t.classList.remove("playing-active"));
+
+            index = i;
+            const currentTrack = tracks[index];
+            const url = currentTrack.dataset.url;
+
+            player.src = url;
+            player.load();
+
+            player.onloadedmetadata = function () {
+                timelineSlider.max = player.duration;
+                durationTimeText.textContent = formatTime(player.duration);
+                player.play();
+            };
+
+            currentTrack.classList.add("playing-active");
+            stickyAudio.classList.add("show");
+        }
+
+        tracks.forEach((t, i) => {
+            t.querySelector(".play-card-btn")?.addEventListener("click", () => playIndex(i));
+        });
+
+        masterPlayPauseBtn.addEventListener("click", () => {
+            if (player.src) {
+                if (player.paused) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+            }
+        });
+
+        player.addEventListener("play", updatePlayPauseUI);
+        player.addEventListener("pause", updatePlayPauseUI);
+
+        player.addEventListener("timeupdate", () => {
+            if (!timelineSlider.classList.contains("user-seeking")) {
+                timelineSlider.value = player.currentTime;
+                currentTimeText.textContent = formatTime(player.currentTime);
+                const progress = (player.currentTime / player.duration) * 100;
+                timelineSlider.style.background = `linear-gradient(to right, #1db954 ${progress}%, #535353 ${progress}%)`;
+            }
+        });
+
+        timelineSlider.addEventListener("input", () => {
+            timelineSlider.classList.add("user-seeking");
+            currentTimeText.textContent = formatTime(timelineSlider.value);
+        });
+
+        timelineSlider.addEventListener("change", () => {
+            player.currentTime = timelineSlider.value;
+            timelineSlider.classList.remove("user-seeking");
+        });
+
+        backBtn.addEventListener("click", () => {
+            if (player.readyState >= 1) player.currentTime = Math.max(0, player.currentTime - 10);
+        });
+
+        forwardBtn.addEventListener("click", () => {
+            if (player.readyState >= 1 && player.duration) player.currentTime = Math.min(player.duration, player.currentTime + 10);
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if (tracks.length === 0) return;
+            const nextIndex = (index + 1) % tracks.length;
+            playIndex(nextIndex);
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (tracks.length === 0) return;
+            const prevIndex = (index - 1 + tracks.length) % tracks.length;
+            playIndex(prevIndex);
+        });
+
+        player.addEventListener("ended", () => {
+            nextBtn.click();
+        });
+
+        closePlayerBtn.addEventListener("click", () => {
+            player.pause();
+            player.currentTime = 0;
+            stickyAudio.classList.remove("show");
+            tracks.forEach(t => t.classList.remove("playing-active"));
+        });
+
+        // 🛠️ اصلاح نهایی و یکپارچه اسکرول افقی دکمه‌ها (جهت حرکت بر اساس لایوت RTL شما)
+        document.querySelectorAll('.slider-section-wrapper').forEach(wrapper => {
+            const track = wrapper.querySelector('.horizontal-music-track');
+            const prevBtn = wrapper.querySelector('.prev-slide');
+            const nextBtn = wrapper.querySelector('.next-slide');
+
+            if (track && prevBtn && nextBtn) {
+                const scrollAmount = 300;
+
+                // کلیک روی دکمه سمت چپ (مشاهده آیتم‌های بعدی) -> اسکرول به سمت چپ
+                nextBtn.addEventListener('click', () => {
+                    track.scrollBy({left: scrollAmount, behavior: 'smooth'});
+                });
+
+                // کلیک روی دکمه سمت راست (برگشت به سمت راست) -> اسکرول به سمت راست
+                prevBtn.addEventListener('click', () => {
+                    track.scrollBy({left: -scrollAmount, behavior: 'smooth'});
+                });
+            }
+        });
+
+        // 🔴 بخش اصلاح‌شده لایک آنی (تغییر وضعیت رنگ قلب به صورت زنده)
+        const csrftoken = "{{ csrf_token }}";
+        document.querySelectorAll(".like-button").forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                const musicId = this.dataset.musicId;
+                const heartIconContainer = this.querySelector(".heart-icon");
+
+                fetch(`/music/${musicId}/like/`, {
+                    method: "POST",
+                    headers: {"X-CSRFToken": csrftoken}
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // ۱. آپدیت عدد لایک
+                        const count = this.querySelector(".likes-count");
+                        if (count) count.textContent = data.likes_count;
+
+                        // ۲. تغییر داینامیک رنگ دکمه لایک اصلی بر اساس پاسخ سرور
+                        if (heartIconContainer) {
+                            if (data.liked) {
+                                // وضعیت لایک شده: قلب قرمز توپر
+                                heartIconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#ef4444" stroke="#b91c1c" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+                            } else {
+                                // وضعیت دیس‌لایک شده: قلب توخالی خاکستری
+                                heartIconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+                            }
+                        }
+
+                        // ۳. تغییر استایل دکمه‌های کوچک لایک لای ردیف‌ها (قلب متنی کامپکت)
+                        if (this.classList.contains('mini-heart')) {
+                            if (data.liked) {
+                                this.style.color = '#ef4444';
+                            } else {
+                                this.style.color = '#b3b3b3';
+                            }
+                        }
+                    })
+                    .catch(err => console.error("خطا در پردازش لایک:", err));
+            });
+        });
+    </script>
+{% endblock %}

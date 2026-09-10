@@ -1,0 +1,445 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mymusic-page-wrapper">
+
+    <!-- 🎵 بخش تک موسیقی‌ها -->
+    <div class="home-section-container">
+        <div class="section-header-flex">
+            <h2>تک موسیقی‌ها</h2>
+            <div class="nav-and-more-wrapper">
+                <a href="{% url 'Music:musics' %}" class="see-more-link">مشاهده همه</a>
+                <div class="slider-nav-buttons">
+                    <button type="button" class="slide-nav-btn prev" onclick="scrollSlider(this, 'prev')" title="قبلی">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 9a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707l6.94 6.94a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"></path><path d="M20 9v6"></path></svg>
+                    </button>
+                    <button type="button" class="slide-nav-btn next" onclick="scrollSlider(this, 'next')" title="بعدی">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 9a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707l6.94 6.94a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"></path><path d="M20 9v6"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="slider-outer-wrapper">
+            <div class="horizontal-scroll-slider">
+                {% for music in musics %}
+                    <div class="track slider-music-card" data-url="{{ music.music_file.url }}" data-title="{{ music.title }}">
+                        <div class="slider-cover-wrap">
+                            {% if music.cover_picture %}
+                                <img src="{{ music.cover_picture.url }}" alt="{{ music.title }}" class="music-card-img">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}/Media/dfulte/music.png" alt="Default Cover" class="music-card-img">
+                            {% endif %}
+                            <button type="button" class="quick-play-hover-btn play-btn" title="پخش">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div class="slider-card-info">
+                            <a href="{% url 'Music:musics_detail' music.title music.id %}"><h3>{{ music.title }}</h3></a>
+                            <p class="slider-artist">{{ music.artist_name|default:"هنرمند ناشناس" }}</p>
+                        </div>
+                        <div class="slider-like-row">
+                            <button class="like-button home-like-trigger" data-music-id="{{ music.id }}">
+                                <span class="heart-icon">
+                                    {% if request.user in music.likes.all %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    {% else %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    {% endif %}
+                                </span>
+                                <span class="likes-count">{{ music.totall_likes }}</span>
+                            </button>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="empty-msg">هیچ موسیقی یافت نشد</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎯 بخش محبوب‌ترین‌ها -->
+    <div class="home-section-container">
+        <div class="section-header-flex">
+            <h2>محبوب‌ترین‌ها</h2>
+            <div class="slider-nav-buttons">
+                <button type="button" class="slide-nav-btn prev" onclick="scrollSlider(this, 'prev')" title="قبلی">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 9a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707l6.94 6.94a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"></path><path d="M20 9v6"></path></svg>
+                </button>
+                <button type="button" class="slide-nav-btn next" onclick="scrollSlider(this, 'next')" title="بعدی">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 9a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707l6.94 6.94a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"></path><path d="M20 9v6"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div class="slider-outer-wrapper">
+            <div class="horizontal-scroll-slider">
+                {% for music in musics_popular %}
+                    <div class="track slider-music-card" data-url="{{ music.music_file.url }}" data-title="{{ music.title }}">
+                        <div class="slider-cover-wrap">
+                            {% if music.cover_picture %}
+                                <img src="{{ music.cover_picture.url }}" alt="{{ music.title }}" class="music-card-img">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}/Media/dfulte/music.png" alt="Default Cover" class="music-card-img">
+                            {% endif %}
+                            <button type="button" class="quick-play-hover-btn play-btn" title="پخش">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                        </div>
+                        <div class="slider-card-info">
+                            <a href="{% url 'Music:musics_detail' music.title music.id %}"><h3>{{ music.title }}</h3></a>
+                            <p class="slider-artist">{{ music.artist_name|default:"هنرمند ناشناس" }}</p>
+                        </div>
+                        <div class="slider-like-row">
+                            <button class="like-button home-like-trigger" data-music-id="{{ music.id }}">
+                                <span class="heart-icon">
+                                    {% if request.user in music.likes.all %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    {% else %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    {% endif %}
+                                </span>
+                                <span class="likes-count">{{ music.totall_likes }}</span>
+                            </button>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="empty-msg">هیچ موسیقی یافت نشد</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="home-section-container">
+        <div class="section-header-flex">
+            <h2>سبک‌های مختلف</h2>
+        </div>
+        <div class="genres-four-grid">
+            {% for G in gener %}
+                <a href="{% url 'Music:musics_genre' G.slug %}" class="genre-color-card">
+                    <button type="button">{{ G.name }}</button>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="home-section-container">
+        <div class="section-header-flex">
+            <h2>معروف‌ترین کاربران</h2>
+        </div>
+        <div class="users-four-grid">
+            {% for user in user_popular %}
+                <div class="user-popular-card">
+                    <div class="user-avatar-wrapper">
+                        {% if user.profile_pic %}
+                            <img src="{{ user.profile_pic.url }}" alt="{{ user.username }}">
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}/Media/dfulte/profile.jpg" alt="{{ user.username }}">
+                        {% endif %}
+                    </div>
+                    <div class="user-card-details">
+                        <a href="{% url 'Music:profile-username' user.username %}"><h3>{{ user.username }}</h3></a>
+                        <p class="user-followers-sub">
+                            <span class="follower-count-span">{{ user.followers.count }}</span> دنبال‌کننده
+                        </p>
+                    </div>
+                    {% if request.user.username != user.username %}
+                        <button type="button" class="profile-follow-action-btn" data-url="{% url 'profile:following' user.username %}">
+                            {% if request.user in user.followers.all %} آنفالو {% else %} فالو {% endif %}
+                        </button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="home-section-container">
+        <div class="section-header-flex">
+            <h2>پلی لیست ها</h2>
+            <div class="nav-and-more-wrapper">
+                <a href="{% url 'Music:albums' %}" class="see-more-link">مشاهده همه</a>
+                <div class="slider-nav-buttons">
+                    <button type="button" class="slide-nav-btn prev" onclick="scrollSlider(this, 'prev')" title="قبلی">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 9a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707l6.94 6.94a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"></path><path d="M20 9v6"></path></svg>
+                    </button>
+                    <button type="button" class="slide-nav-btn next" onclick="scrollSlider(this, 'next')" title="بعدی">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 9a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707l6.94 6.94a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h2a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1z"></path><path d="M20 9v6"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="slider-outer-wrapper">
+            <div class="horizontal-scroll-slider">
+                {% for album in albums %}
+                    <div class="slider-music-card">
+                        <div class="slider-cover-wrap">
+                            {% if album.cover_album %}
+                                <img src="{{ album.cover_album.url }}" alt="{{ album.title }}">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}/Media/dfulte/Album.jpg" alt="Default Cover">
+                            {% endif %}
+                            <a href="{% url 'Music:dtail-albums' album.id %}" class="quick-play-hover-btn" title="مشاهده">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                            </a>
+                        </div>
+                        <div class="slider-card-info">
+                            <a href="{% url 'Music:dtail-albums' album.id %}"><h3>{{ album.title }}</h3></a>
+                            <p class="slider-artist">{{ album.user.username }}</p>
+                        </div>
+                        <div class="slider-like-row">
+                            {% if request.user != album.user %}
+                                <button class="save-button home-save-trigger" data-album-id="{{ album.id }}">
+                                    <span class="save-text">
+                                        {% if request.user in album.saved_by.all %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1db954"><path d="M14 2a5 5 0 0 1 5 5v14a1 1 0 0 1 -1.555 .832l-5.445 -3.63l-5.444 3.63a1 1 0 0 1 -1.55 -.72v-14a5 5 0 0 1 5 -5h4z"/></svg>
+                                        {% else %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"/></svg>
+                                        {% endif %}
+                                    </span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="empty-msg">پلی لیست ساخته نشده است</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div id="sticky-audio" class="sticky-player-glass">
+    <button type="button" id="closePlayerBtn" class="close-player-btn" title="بستن پلیر">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <audio id="player" preload="auto"></audio>
+    <div class="player-controls-wrapper">
+        <div class="volume-control-container">
+            <svg id="volumeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="0.8">
+        </div>
+        <div class="center-nav-buttons">
+            <button type="button" id="prevBtn" class="player-seek-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+            <button type="button" id="backBtn" class="player-seek-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 19 2 12 11 5 11 19"></polygon><polygon points="22 19 13 12 22 5 22 19"></polygon></svg></button>
+            <button type="button" id="masterPlayPauseBtn" class="master-play-pause-btn">
+                <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+                <svg id="pauseIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+            </button>
+            <button type="button" id="forwardBtn" class="player-seek-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 19 22 12 13 5 13 19"></polygon><polygon points="2 19 11 12 2 5 2 19"></polygon></svg></button>
+            <button type="button" id="nextBtn" class="player-seek-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+        </div>
+        <div class="custom-timeline-container">
+            <span id="currentTimeText" class="time-stamp">0:00</span>
+            <input type="range" id="timelineSlider" class="modern-slider" min="0" value="0" step="0.1">
+            <span id="durationTimeText" class="time-stamp">0:00</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 🛠️ اصلاح دقیق جهت اسکرول دکمه‌های چپ و راست متناسب با سیستم راست‌چین (RTL)
+    function scrollSlider(buttonElement, direction) {
+        const container = buttonElement.closest('.home-section-container');
+        const slider = container.querySelector('.horizontal-scroll-slider');
+        const scrollAmount = 500;
+
+        // در حالت RTL، مقدار مثبت اسکرول به سمت چپ (آیتم‌های بعدی) و منفی به سمت راست (آیتم‌های قبلی) می‌رود
+        if (direction === 'next') {
+            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        } else {
+            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        }
+    }
+
+    const player = document.getElementById("player");
+    const tracks = Array.from(document.querySelectorAll(".track"));
+    const backBtn = document.getElementById("backBtn");
+    const forwardBtn = document.getElementById("forwardBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const stickyAudio = document.getElementById("sticky-audio");
+    const closePlayerBtn = document.getElementById("closePlayerBtn");
+    const masterPlayPauseBtn = document.getElementById("masterPlayPauseBtn");
+    const playIcon = document.getElementById("playIcon");
+    const pauseIcon = document.getElementById("pauseIcon");
+    const timelineSlider = document.getElementById("timelineSlider");
+    const currentTimeText = document.getElementById("currentTimeText");
+    const durationTimeText = document.getElementById("durationTimeText");
+    const volumeSlider = document.getElementById("volumeSlider");
+    const volumeIcon = document.getElementById("volumeIcon");
+    const csrftoken = "{{ csrf_token }}";
+    let index = 0;
+
+    // استایل سبک‌ها
+    const colors = ['#1db954', '#ef4444', '#3b82f6', '#eab308', '#a855f7', '#06b6d4', '#f97316', '#ec4899'];
+    document.querySelectorAll('.genre-color-card').forEach(card => {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        card.style.borderColor = randomColor;
+        card.addEventListener('mouseenter', () => card.style.boxShadow = `0 0 15px ${randomColor}`);
+        card.addEventListener('mouseleave', () => card.style.boxShadow = 'none');
+    });
+
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // 🟢 تابع هوشمند سازگار با شناسایی فایل صوتی جهت تغییر رنگ کادر به سبز
+    function syncPlayingCardGlow(currentAudioUrl) {
+        // حذف استایل درخشش از روی تمام کادرها بدون استثنا
+        document.querySelectorAll('.track').forEach(card => {
+            const img = card.querySelector('.music-card-img');
+            if (img) img.classList.remove('currently-playing-glow');
+        });
+
+        if (!currentAudioUrl) return;
+
+        // پیدا کردن هر کادری که آدرس آهنگ در حال پخش را دارد و سبز کردن آن
+        document.querySelectorAll(`.track[data-url="${currentAudioUrl}"]`).forEach(activeCard => {
+            const activeImg = activeCard.querySelector('.music-card-img');
+            if (activeImg) activeImg.classList.add('currently-playing-glow');
+        });
+    }
+
+    function updatePlayPauseUI() {
+        if (player.paused) {
+            playIcon.style.display = "block";
+            pauseIcon.style.display = "none";
+        } else {
+            playIcon.style.display = "none";
+            pauseIcon.style.display = "block";
+        }
+    }
+
+    function playIndex(i) {
+        if (tracks.length === 0) return;
+        index = i;
+        const selectedTrack = tracks[index];
+        player.src = selectedTrack.dataset.url;
+        player.load();
+        player.onloadedmetadata = function () {
+            timelineSlider.max = player.duration;
+            durationTimeText.textContent = formatTime(player.duration);
+            player.play();
+        };
+        stickyAudio.classList.add("show");
+        syncPlayingCardGlow(player.src); // فعال‌سازی افکت کادر سبز
+    }
+
+    tracks.forEach((t, i) => {
+        t.querySelector(".quick-play-hover-btn")?.addEventListener("click", (e) => {
+            e.stopPropagation();
+            playIndex(i);
+        });
+    });
+
+    masterPlayPauseBtn.addEventListener("click", () => {
+        if (player.src) {
+            if (player.paused) player.play(); else player.pause();
+        }
+    });
+
+    player.addEventListener("play", updatePlayPauseUI);
+    player.addEventListener("pause", updatePlayPauseUI);
+    player.addEventListener("timeupdate", () => {
+        if (!timelineSlider.classList.contains("user-seeking")) {
+            timelineSlider.value = player.currentTime;
+            currentTimeText.textContent = formatTime(player.currentTime);
+            const progress = (player.currentTime / player.duration) * 100;
+            timelineSlider.style.background = `linear-gradient(to right, #1db954 ${progress}%, #535353 ${progress}%)`;
+        }
+    });
+
+    timelineSlider.addEventListener("input", () => {
+        timelineSlider.classList.add("user-seeking");
+        currentTimeText.textContent = formatTime(timelineSlider.value);
+    });
+    timelineSlider.addEventListener("change", () => {
+        player.currentTime = timelineSlider.value;
+        timelineSlider.classList.remove("user-seeking");
+    });
+
+    player.volume = volumeSlider.value;
+    volumeSlider.addEventListener("input", (e) => {
+        player.volume = e.target.value;
+        volumeSlider.style.background = `linear-gradient(to right, #1db954 ${e.target.value * 100}%, #535353 ${e.target.value * 100}%)`;
+    });
+
+    backBtn.addEventListener("click", () => { if (player.readyState >= 1) player.currentTime = Math.max(0, player.currentTime - 10); });
+    forwardBtn.addEventListener("click", () => { if (player.readyState >= 1 && player.duration) player.currentTime = Math.min(player.duration, player.currentTime + 10); });
+    nextBtn.addEventListener("click", () => { if (tracks.length > 0) playIndex((index + 1) % tracks.length); });
+    prevBtn.addEventListener("click", () => { if (tracks.length > 0) playIndex((index - 1 + tracks.length) % tracks.length); });
+    player.addEventListener("ended", () => nextBtn.click());
+
+    closePlayerBtn.addEventListener("click", () => {
+        player.pause();
+        stickyAudio.classList.remove("show");
+        syncPlayingCardGlow(null); // غیرفعال کردن کادرهای سبز هنگام بستن کامل پلیر
+    });
+
+    // لایک لایو
+    document.querySelectorAll(".home-like-trigger").forEach(button => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const musicId = this.dataset.musicId;
+            const icon = this.querySelector(".heart-icon");
+            const count = this.querySelector(".likes-count");
+            fetch(`/music/${musicId}/like/`, { method: "POST", headers: { "X-CSRFToken": csrftoken } })
+            .then(res => res.json()).then(data => {
+                count.textContent = data.likes_count;
+                icon.innerHTML = data.liked ?
+                    `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>` :
+                    `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+            });
+        });
+    });
+
+    // سیو لایو آلبوم
+    document.querySelectorAll(".home-save-trigger").forEach(button => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const albumId = this.dataset.albumId;
+            const icon = this.querySelector(".save-text");
+            fetch(`/album/${albumId}/save/`, { method: "POST", headers: { "X-CSRFToken": csrftoken } })
+            .then(res => res.json()).then(data => {
+                icon.innerHTML = data.saved ?
+                    `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1db954"><path d="M14 2a5 5 0 0 1 5 5v14a1 1 0 0 1 -1.555 .832l-5.445 -3.63l-5.444 3.63a1 1 0 0 1 -1.55 -.72v-14a5 5 0 0 1 5 -5h4z"/></svg>` :
+                    `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="2"><path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"/></svg>`;
+            });
+        });
+    });
+
+    // لایو دکمه فالو کاربران معروف
+    document.querySelectorAll('.profile-follow-action-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const url = this.getAttribute('data-url');
+            const parentCard = this.closest('.user-popular-card');
+            const countSpan = parentCard.querySelector('.follower-count-span');
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'X-Requested-With': 'XMLHttpRequest', 'X-CSRFToken': csrftoken }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    this.innerText = data.following ? 'آنفالو' : 'فالو';
+                    if (countSpan) countSpan.innerText = data.follower_count;
+                }
+            }).catch(err => console.error('Error:', err));
+        });
+    });
+</script>
+{% endblock %}

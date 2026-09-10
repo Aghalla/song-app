@@ -1,0 +1,394 @@
+/* ==========================================================================
+   ۱. کانتینر شیشه‌ای مادری (عریز شده ویژه لپ‌تاپ‌های بزرگ تا 1600px)
+   ========================================================================== */
+.mymusic-page-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    margin: 40px auto 140px auto;
+    padding: 40px;
+    direction: rtl;
+    box-sizing: border-box;
+    background: rgba(15, 15, 15, 0.75) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.4);
+}
+
+.profile-user-header-card {
+    background: rgba(32, 32, 32, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border-radius: 12px;
+    padding: 24px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.profile-avatar-box {
+    border-radius: 50% !important;
+    border: 2px solid rgba(29, 185, 84, 0.4);
+}
+
+.user-bio-text {
+    color: #e5e5e5;
+    font-size: 0.9rem;
+}
+
+.profile-follow-action-btn {
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+}
+
+.profile-follow-action-btn:hover {
+    background: #1ed760;
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   ۲. چیدمان کارت‌های موزیک با عکس بالا و مشخصات پایین (۲ سطر عمودی دوتایی)
+   ========================================================================== */
+.spec-grid-viewport {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 5px;
+}
+
+.vertical-double-grid-flow {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: calc(20% - 16px);
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding-bottom: 10px;
+    direction: rtl !important;
+}
+
+.vertical-double-grid-flow::-webkit-scrollbar {
+    display: none;
+}
+
+.horizontal-list-item-card {
+    background: rgba(35, 35, 35, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column !important;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+.horizontal-list-item-card:hover {
+    background: rgba(48, 48, 48, 0.9) !important;
+    border-color: rgba(29, 185, 84, 0.4) !important;
+    transform: translateY(-5px);
+}
+
+.playing-active {
+    background: rgba(29, 185, 84, 0.1) !important;
+    border-color: rgba(29, 185, 84, 0.6) !important;
+    box-shadow: 0 0 18px rgba(29, 185, 84, 0.2);
+}
+
+.horizontal-list-item-card .cover-container {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.horizontal-list-item-card .play-card-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
+}
+
+.horizontal-list-item-card:hover .play-card-btn,
+.playing-active .play-card-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.horizontal-list-item-card .card-meta-data {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.grid-track-duration {
+    font-size: 0.75rem;
+    color: #7f7f7f;
+    margin-top: 2px;
+}
+
+.like-action-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.mini-heart {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+/* ==========================================================================
+   ۳. اصول ناوبری، هدرها و دکمه‌های چپ و راست اسلایدر
+   ========================================================================== */
+.main-card-right-side { display: flex; align-items: center; gap: 25px; }
+.main-cover-box { width: 150px; height: 150px; overflow: hidden; flex-shrink: 0; }
+.main-cover-box img { width: 100%; height: 100%; object-fit: cover; }
+.main-details-box { display: flex; flex-direction: column; align-items: flex-start; }
+.genre-badge { background: rgba(29, 185, 84, 0.15); color: #1db954; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: bold; margin-bottom: 8px; }
+.main-details-box h1 { margin: 0; font-size: 1.6rem; color: #ffffff; }
+.artist-name-txt { font-size: 1.05rem; color: #b3b3b3; margin: 4px 0 10px 0; }
+.uploader-and-time { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: #b3b3b3; }
+.uploader-and-time a { color: #1db954; text-decoration: none; }
+.divider-dot { color: #535353; }
+.sliders-container { display: flex; flex-direction: column; gap: 50px; margin-top: 40px; }
+.slider-section-wrapper { position: relative; width: 100%; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.section-header h2 { font-size: 1.2rem; color: #ffffff; margin: 0; }
+.slider-navigation-btns { display: flex; gap: 8px; }
+.slide-nav-btn { background: #242424; border: none; color: #ffffff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s; z-index: 10; }
+.slide-nav-btn:hover { background: #1db954; }
+.cover-container { position: relative; border-radius: 8px; overflow: hidden; background: #181818; }
+.track-cover { width: 100%; height: 100%; object-fit: cover; }
+.text-details { overflow: hidden; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.text-details h2 { margin: 0; font-size: 0.95rem; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; }
+.text-details a { text-decoration: none; }
+.text-details p { margin: 0; font-size: 0.8rem; color: #b3b3b3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; }
+.empty-msg { color: #b3b3b3; font-size: 0.9rem; padding: 20px; }
+
+/* ==========================================================================
+   ۴. معماری شیشه‌ای متقارن و سه قسمتی چسبان (Sticky Player)
+   ========================================================================== */
+/* ==========================================================================
+   ۴. معماری شیشه‌ای پلیر با دسترسی سریع و متمرکز به ولوم صدا و کلیدها
+   ========================================================================== */
+.sticky-player-glass {
+    position: fixed !important;
+    bottom: -130px;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    background: rgba(18, 18, 18, 0.96) !important;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 40px;
+    transition: bottom 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999999 !important;
+    direction: ltr !important;
+    box-sizing: border-box;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.sticky-player-glass.show { bottom: 0 !important; }
+
+.close-player-btn {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    color: #a7a7a7;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.25s ease;
+}
+.close-player-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); transform: rotate(90deg); }
+
+/* ساختار دربرگیرنده اصلی پلیر */
+.player-controls-wrapper {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* 🎛️ کانتینر ادغام‌کننده ولوم و کلیدها جهت جلوگیری از پرت شدن به گوشه صفحه */
+.player-interactive-group {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* فاصله منطقی بین اسلایدر ولوم و دکمه آهنگ قبلی */
+}
+
+/* 🔊 بخش اسلایدر تنظیم ولوم صدا */
+.volume-control-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 140px;
+    color: #b3b3b3;
+}
+.volume-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 50px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+}
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+/* کلیدهای ناوبری اصلی مدیا */
+.center-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.master-play-pause-btn {
+    background: #ffffff;
+    border: none;
+    color: #121212;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.master-play-pause-btn:hover { transform: scale(1.06); background: #1db954; color: #ffffff; }
+
+.player-seek-btn {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+.player-seek-btn:hover { color: #1db954; background: rgba(255, 255, 255, 0.05); }
+
+/* 🟢 نوار وضعیت و تایم‌لاین زمانی عریض در سمت راست */
+.custom-timeline-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.time-stamp { font-size: 0.8rem; color: #a7a7a7; min-width: 38px; font-family: monospace; }
+
+.modern-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    border-radius: 50px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+    transition: height 0.1s ease;
+}
+.modern-slider:hover { height: 7px; }
+.modern-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* ==========================================================================
+   ۵. ریسپانسیو برای ابعاد مختلف مانیتورها
+   ========================================================================== */
+@media (max-width: 1400px) {
+    .vertical-double-grid-flow { grid-auto-columns: calc(25% - 15px); }
+}
+
+@media (max-width: 1100px) {
+    .vertical-double-grid-flow { grid-auto-columns: calc(33.333% - 15px); }
+    .player-controls-wrapper { gap: 15px; }
+    .volume-control-container { width: 120px; }
+}
+
+@media (max-width: 768px) {
+    .mymusic-page-wrapper { padding: 15px; margin: 20px auto 140px auto; border-radius: 0; }
+    .profile-user-header-card { flex-direction: column; align-items: flex-start; padding: 20px; }
+    .main-card-right-side { flex-direction: column; align-items: flex-start; gap: 15px; width: 100%; }
+    .main-cover-box { width: 120px; height: 120px; }
+    .main-card-left-side { align-self: flex-end; margin-top: -10px; }
+    .vertical-double-grid-flow { grid-auto-columns: calc(50% - 10px); }
+
+    /* بهینه‌سازی پلیر در موبایل */
+    .player-controls-wrapper { flex-direction: column; gap: 12px; }
+    .volume-control-container { width: 100%; justify-content: center; }
+    .custom-timeline-container { width: 100%; max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+    .vertical-double-grid-flow { grid-auto-columns: calc(100% - 5px); }
+}

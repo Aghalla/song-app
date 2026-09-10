@@ -1,0 +1,31 @@
+#sticky-audio{
+  display: none;              /* پیش‌فرض مخفی */
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: rgba(20,20,20,0.95);
+  padding: 10px;
+
+  z-index: 9999;
+
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+}
+
+#sticky-audio.show{
+  display: flex;              /* وقتی show شد دیده شود */
+}
+
+/* برای اینکه محتوای صفحه زیر پلیر نره */
+body{
+  padding-bottom: 70px;
+}
+
+/* اختیاری */
+#sticky-audio audio{
+  flex: 1;
+}

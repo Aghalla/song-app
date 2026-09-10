@@ -1,0 +1,236 @@
+/* کانتینر سراسری صفحه */
+.dark-page-wrapper {
+    background: transparent !important;
+    color: #ffffff !important;
+    min-height: 100vh;
+    margin: -20px;
+    padding: 20px;
+    direction: rtl;
+}
+
+/* کانتینر فرم - در مانیتور عریض‌تر می‌شود تا فضا برای راست و چپ باشد */
+.upload-container {
+    width: 100%;
+    max-width: 1100px; /* افزایش عرض برای مانیتور */
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+/* 💻 چیدمان دوقسمتی برای مانیتور و صفحات بزرگ */
+.main-flex-container {
+    display: flex;
+    gap: 30px; /* فاصله بین ستون راست و چپ */
+    align-items: flex-start; /* تراز شدن از بالا */
+}
+
+/* ستون راست (آلبوم) - ۳5 درصد از کل فضا */
+.right-column {
+    flex: 35;
+    position: sticky; /* آلبوم با اسکرول کردن صفحه، در جای خود ثابت بماند */
+    top: 20px;
+}
+
+/* ستون چپ (آهنگ‌ها) - ۶5 درصد از کل فضا */
+.left-column {
+    flex: 65;
+}
+
+/* تیترهای بخش‌ها */
+.upload-container h3 {
+    color: #ffffff !important;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 12px;
+}
+
+.upload-container .form-title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* کادرهای شیشه‌ای مات اسپاتیفای (Glassmorphism) */
+.card-glass {
+    background: rgba(24, 24, 24, 0.65) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(29, 185, 84, 0.25) !important;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.3s ease;
+}
+
+.card-glass:hover {
+    background: rgba(40, 40, 40, 0.75) !important;
+    border-color: rgba(29, 185, 84, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(29, 185, 84, 0.1);
+}
+
+/* استایل فیلدهای اتوماتیک جنگو */
+.django-form-fields p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.django-form-fields label {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #b3b3b3 !important;
+}
+
+/* کادرهای ورودی شیشه‌ای مات */
+.django-form-fields input,
+.django-form-fields select,
+.django-form-fields textarea {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    padding: 12px 14px !important;
+    border-radius: 6px !important;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.django-form-fields input:focus,
+.django-form-fields select:focus,
+.django-form-fields textarea:focus {
+    outline: none !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: #1db954 !important;
+    box-shadow: 0 0 10px rgba(29, 185, 84, 0.3) !important;
+}
+
+/* دکمه کپسولی "ساخت آلبوم جدید" */
+.btn-secondary-glass {
+    background: transparent !important;
+    border: 1px solid #727272 !important;
+    border-radius: 50px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+.btn-secondary-glass a {
+    display: block;
+    text-decoration: none;
+    padding: 8px 18px;
+    color: #ffffff !important;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.btn-secondary-glass:hover {
+    border-color: #1db954 !important;
+    transform: scale(1.04);
+}
+
+/* دکمه دات‌چین "افزودن آهنگ بیشتر" */
+.btn-add-more {
+    background: transparent !important;
+    border: 1px dashed rgba(255, 255, 255, 0.2) !important;
+    color: #b3b3b3 !important;
+    padding: 14px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.95rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    margin-bottom: 25px;
+}
+
+.btn-add-more:hover {
+    border-color: #1db954 !important;
+    color: #ffffff !important;
+    background: rgba(29, 185, 84, 0.05) !important;
+}
+
+/* بخش دکمه نهایی ثبت */
+.submit-container {
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 25px;
+    margin-top: 20px;
+}
+
+/* دکمه سبز معروف اسپاتیفای */
+.btn-submit-main {
+    background: #1db954 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 14px 45px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.2);
+}
+
+.btn-submit-main:hover {
+    background: #1ed760 !important;
+    transform: scale(1.04);
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+}
+
+/* 📱 کدهای اختصاصی برای گوشی و تبلت (تغییر چیدمان به زیرِ هم) */
+@media (max-width: 850px) {
+    .main-flex-container {
+        flex-direction: column; /* تبدیل چیدمان افقی به عمودی روی گوشی */
+        gap: 0;
+    }
+
+    .right-column, .left-column {
+        flex: 100;
+        width: 100%;
+    }
+
+    .right-column {
+        position: static; /* غیرفعال شدن حالت چسبنده در موبایل */
+        margin-bottom: 20px;
+    }
+
+    .card-glass {
+        padding: 18px;
+    }
+
+    .submit-container {
+        text-align: center;
+    }
+
+    .btn-submit-main {
+        width: 100%;
+        padding: 14px 0;
+    }
+}
+
+/* 🛠️ حل مشکل ناپدید شدن نوشته‌ها در منوهای کشویی (Select Options) */
+.django-form-fields select option {
+    background-color: #1c1c1c !important; /* پس‌زمینه زغالی تیره شبیه اسپاتیفای */
+    color: #ffffff !important; /* متن سفید خالص برای خوانایی کامل */
+    padding: 10px;
+}
+
+/* رفع استایل پیش‌فرض مرورگر روی منوهای کشویی */
+.django-form-fields select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* اضافه کردن یک فلش کوچک سمت چپ منو برای زیبایی بیشتر (اختیاری) */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='50' fill='%23b3b3b3'><polygon points='0,0 100,0 50,50'/></svg>");
+    background-repeat: no-repeat;
+    background-position: left 15px center;
+    background-size: 10px;
+    padding-left: 40px !important; /* فضا برای فلش سمت چپ */
+}

@@ -1,0 +1,583 @@
+/* ==========================================================================
+   ۱. کانتینر بدنه آرشیو (تم شیشه‌ای و تیره قطعات SuniQ)
+   ========================================================================== */
+.musics-archive-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    margin: 40px auto 160px auto;
+    padding: 30px;
+    direction: rtl;
+    box-sizing: border-box;
+    background: rgba(15, 15, 15, 0.75) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   ۱. کانتینر بدنه آرشیو (تم شیشه‌ای و تیره قطعات SuniQ)
+   ========================================================================== */
+.musics-archive-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    margin: 40px auto 160px auto;
+    padding: 30px;
+    direction: rtl;
+    box-sizing: border-box;
+    background: rgba(15, 15, 15, 0.75) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* 🎛️ کارت بالای صفحه اصلاح شده به همراه دراپ داون کشویی */
+.archive-filter-header-card {
+    background: rgba(32, 32, 32, 0.75) !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border-radius: 12px;
+    padding: 15px 25px;
+    margin-bottom: 35px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.filter-controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dropdown-filter-box, .sorting-actions-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filter-label-txt, .sort-label-txt {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* 💠 استایل اختصاصی سلکتور کشویی مدرن */
+.custom-select-wrapper {
+    position: relative;
+    min-width: 180px;
+}
+
+.modern-dropdown-select {
+    width: 100%;
+    padding: 8px 15px 8px 35px;
+    font-size: 0.88rem;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none;
+    appearance: none; /* حذف فلش پیشفرض مرورگر */
+    -webkit-appearance: none;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.modern-dropdown-select:hover, .modern-dropdown-select:focus {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #1db954;
+}
+
+/* ایجاد فلش کاستوم برای منو کشویی */
+.custom-select-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 12px; /* موقعیت قرارگیری در سمت چپ در لایه راست‌چین */
+    transform: translateY(-50%);
+    border-width: 5px 4px 0 4px;
+    border-style: solid;
+    border-color: #b3b3b3 transparent transparent transparent;
+    pointer-events: none;
+}
+
+.modern-dropdown-select option {
+    background-color: #181818;
+    color: #ffffff;
+    padding: 10px;
+}
+
+.sort-buttons-group {
+    display: flex;
+    gap: 10px;
+}
+
+.sort-btn-item {
+    background: transparent;
+    color: #a7a7a7;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.sort-btn-item:hover {
+    background: #ffffff;
+    color: #121212;
+    border-color: #ffffff;
+}
+
+/* بقیه استایل‌های گرید ۳تایی و پلیر دراپ‌زون SuniQ بدون تغییر باقی بمانند */
+.musics-triple-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ریسپانسیو بخش بالایی در موبایل */
+@media (max-width: 768px) {
+    .filter-controls-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .dropdown-filter-box, .custom-select-wrapper {
+        width: 100%;
+    }
+    .sorting-actions-box {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .sort-buttons-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.current-genre-badge {
+    align-self: flex-start;
+    background: rgba(29, 185, 84, 0.15);
+    color: #1db954;
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+}
+
+.genre-selector-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.genre-chip {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.genre-chip:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.active-chip {
+    background: #1db954 !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+}
+
+.filter-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    width: 100%;
+    margin: 5px 0;
+}
+
+.sorting-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sort-label-txt {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+}
+
+.sort-buttons-group {
+    display: flex;
+    gap: 10px;
+}
+
+.sort-btn-item {
+    background: transparent;
+    color: #a7a7a7;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.sort-btn-item:hover {
+    background: #ffffff;
+    color: #121212;
+    border-color: #ffffff;
+}
+
+/* ==========================================================================
+   ۲. گرید ۳ ستونه قطعات موسیقی (۳ آهنگ در هر ردیف رو به پایین)
+   ========================================================================== */
+.musics-triple-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.archive-rectangle-music-card {
+    background: rgba(30, 30, 30, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: row-reverse; /* قرارگیری عکس در سمت راست در لایه RTL کارت */
+    align-items: center;
+    gap: 16px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+.music-cover-wrapper {
+    width: 75px;
+    height: 75px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #181818;
+}
+
+.main-track-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.music-meta-details-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    overflow: hidden;
+}
+
+.music-text-links {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    overflow: hidden;
+    align-items: flex-start;
+}
+
+.music-title-link {
+    text-decoration: none;
+    max-width: 100%;
+}
+
+.music-text-links h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.music-title-link:hover h3 {
+    color: #1db954;
+}
+
+.sub-info-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #b3b3b3;
+}
+
+.dot-sep { color: #535353; }
+
+.uploader-info-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: #8e8e8e;
+}
+
+.uploader-info-row a {
+    color: #ffffff;
+    text-decoration: none;
+}
+.uploader-info-row a:hover { text-decoration: underline; }
+
+.duration-badge {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.archive-like-action-area {
+    display: flex;
+    align-items: center;
+}
+
+.suniq-heart-trigger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0;
+}
+
+/* افکت متمایز هوور روی کارت‌ها */
+.archive-rectangle-music-card:hover {
+    background: rgba(45, 45, 45, 0.8) !important;
+    border-color: rgba(29, 185, 84, 0.35) !important;
+    transform: translateY(-3px);
+}
+
+.playing-active {
+    background: rgba(29, 185, 84, 0.12) !important;
+    border-color: rgba(29, 185, 84, 0.6) !important;
+}
+
+/* دکمه دایره‌ای پخش روی کاور */
+.quick-play-hover-btn {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.archive-rectangle-music-card:hover .quick-play-hover-btn,
+.playing-active .quick-play-hover-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.empty-archive-msg {
+    grid-column: span 3;
+    text-align: center;
+    color: #a7a7a7;
+    padding: 40px;
+}
+
+/* ==========================================================================
+   ۳. معماری نهایی منوی چسبان پلیر سه قسمتی استاندارد SuniQ
+   ========================================================================== */
+.sticky-player-glass {
+    position: fixed !important;
+    bottom: -130px;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    background: rgba(18, 18, 18, 0.96) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 30px;
+    transition: bottom 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999999 !important;
+    direction: ltr !important; /* اجبار جهت چینش سه‌بخشی المان‌ها */
+    box-sizing: border-box;
+}
+
+.sticky-player-glass.show {
+    bottom: 0 !important;
+}
+
+.close-player-btn {
+    position: absolute;
+    top: 8px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    color: #a7a7a7;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+.close-player-btn:hover {
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.player-controls-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+/* 🔊 سمت چپ (فرزند اول): بخش اسلایدر تنظیم ولوم صدا */
+.volume-control-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 150px;
+    color: #b3b3b3;
+}
+
+.volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 90px;
+    height: 4px;
+    border-radius: 10px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+/* 🎛️ مرکز (فرزند دوم): کلیدهای ناوبری و هدایت مدیا پلیر */
+.center-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.master-play-pause-btn {
+    background: #ffffff;
+    border: none;
+    color: #121212;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.master-play-pause-btn:hover {
+    transform: scale(1.06);
+    background: #1db954;
+    color: #ffffff;
+}
+
+.player-seek-btn {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.player-seek-btn:hover {
+    color: #1db954;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 🟢 سمت راست (فرزند سوم): نوار وضعیت و تایم‌لاین زمانی */
+.custom-timeline-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 500px;
+}
+
+.time-stamp {
+    font-size: 0.8rem;
+    color: #a7a7a7;
+    min-width: 35px;
+    font-family: monospace;
+}
+
+.modern-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    border-radius: 50px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+}
+
+.modern-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+/* ==========================================================================
+   ۴. واکنش‌گرایی آرشیو (Responsive)
+   ========================================================================== */
+@media (max-width: 1200px) {
+    .musics-triple-grid-container { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .musics-archive-wrapper { padding: 15px; border-radius: 0; }
+    .musics-triple-grid-container { grid-template-columns: 1fr; }
+    .player-controls-wrapper { flex-direction: column; gap: 15px; }
+    .volume-control-container { justify-content: center; width: 100%; }
+    .custom-timeline-container { max-width: 100%; width: 100%; }
+}

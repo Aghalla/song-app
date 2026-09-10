@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}موسیقی‌های من{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Account/musics/my_music.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="mymusic-page-wrapper">
+        <div class="larg">
+            <h1>موزیک های آپلود شده توسط شما: </h1>
+            <br>
+
+            <div class="music-grid-layout">
+                {% for music in music_list %}
+                    <div class="track music-card-square" data-url="{{ music.music_file.url }}" data-title="{{ music.title }}">
+
+                        <div class="cover-container">
+                            {% if music.cover_picture %}
+                                <img src="{{ music.cover_picture.url }}" alt="Music Cover" class="track-cover">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}/Media/dfulte/music.png" alt="Default Cover" class="track-cover">
+                            {% endif %}
+
+                            <button type="button" class="play-card-btn" title="پخش">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="card-meta-data">
+                            <div class="text-details">
+                                <a href="{% url 'Music:musics_detail' music.title music.id %}" style="text-decoration: none;">
+                                    <h2>{{ music.title }}</h2>
+                                </a>
+                                {% if music.artist_name %}
+                                    <p class="artist-txt">{{ music.artist_name }}</p>
+                                {% endif %}
+                                <p class="genre-txt">{{ music.genre }}</p>
+                                <p>{{ music.time }}</p>
+                            </div>
+
+                            <div class="delete-zone">
+                                <form method="post" action="{% url 'Music:delete_music' music.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete-card" title="حذف آهنگ">
+                                        <svg width="18" height="18" viewBox="0 0 64 64" fill="currentColor">
+                                            <path d="M19.186,16.493l0,-1.992c0.043,-3.346 2.865,-6.296 6.277,-6.427c3.072,-0.04 10.144,-0.04 13.216,0c3.346,0.129 6.233,3.012 6.277,6.427l0,1.992l9.106,0l0,4l-4.442,0l0,29.11c-0.043,3.348 -2.865,6.296 -6.278,6.428c-7.462,0.095 -14.926,0.002 -22.39,0.002c-3.396,-0.044 -6.385,-2.96 -6.429,-6.43l0,-29.11l-4.443,0l0,-4l9.106,0Zm26.434,4l-27.099,0c-0.014,9.72 -0.122,19.441 0.002,29.16c0.049,1.25 1.125,2.33 2.379,2.379c7.446,0.095 14.893,0.095 22.338,0c1.273,-0.049 2.363,-1.163 2.38,-2.455l0,-29.084Zm-4.701,-4c-0.014,-0.83 0,-1.973 0,-1.973c0,0 -0.059,-2.418 -2.343,-2.447c-3.003,-0.039 -10.007,-0.039 -13.01,0c-1.273,0.049 -2.363,1.162 -2.38,2.454l0,1.966l17.733,0Z"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="empty-list">
+                        <p>هیچ موسیقی در کتابخانه شما یافت نشد.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="sticky-audio" class="sticky-player-glass">
+                <button type="button" id="closePlayerBtn" class="close-player-btn" title="بستن پلیر">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                <audio id="player" preload="auto"></audio>
+
+                <div class="player-controls-wrapper">
+
+
+                    <div class="volume-control-container">
+                        <svg id="volumeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="0.8">
+                    </div>
+
+
+                    <div class="center-nav-buttons">
+                        <button type="button" id="prevBtn" class="player-seek-btn" title="آهنگ قبلی">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                            </svg>
+                        </button>
+
+                        <button type="button" id="backBtn" class="player-seek-btn" title="۱۰ ثانیه عقب">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                                <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                            </svg>
+                        </button>
+
+                        <button type="button" id="masterPlayPauseBtn" class="master-play-pause-btn" title="پخش / توقف">
+                            <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"></path>
+                            </svg>
+                            <svg id="pauseIcon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
+                            </svg>
+                        </button>
+
+                        <button type="button" id="forwardBtn" class="player-seek-btn" title="۱۰ ثانیه جلو">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                                <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                            </svg>
+                        </button>
+
+                        <button type="button" id="nextBtn" class="player-seek-btn" title="آهنگ بعدی">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="custom-timeline-container">
+                        <span id="currentTimeText" class="time-stamp">0:00</span>
+                        <input type="range" id="timelineSlider" class="modern-slider" min="0" value="0" step="0.1">
+                        <span id="durationTimeText" class="time-stamp">0:00</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById("player");
+        const tracks = Array.from(document.querySelectorAll(".track"));
+        const backBtn = document.getElementById("backBtn");
+        const forwardBtn = document.getElementById("forwardBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const stickyAudio = document.getElementById("sticky-audio");
+        const closePlayerBtn = document.getElementById("closePlayerBtn");
+
+        const masterPlayPauseBtn = document.getElementById("masterPlayPauseBtn");
+        const playIcon = document.getElementById("playIcon");
+        const pauseIcon = document.getElementById("pauseIcon");
+
+        const timelineSlider = document.getElementById("timelineSlider");
+        const currentTimeText = document.getElementById("currentTimeText");
+        const durationTimeText = document.getElementById("durationTimeText");
+
+        const volumeSlider = document.getElementById("volumeSlider");
+        const volumeIcon = document.getElementById("volumeIcon");
+
+        let index = 0;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updatePlayPauseUI() {
+            if (player.paused) {
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+            } else {
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+            }
+        }
+
+        function playIndex(i) {
+            if (tracks.length === 0) return;
+            tracks.forEach(t => t.classList.remove("playing-active"));
+
+            index = i;
+            const currentTrack = tracks[index];
+            const url = currentTrack.dataset.url;
+
+            player.src = url;
+            player.load();
+
+            player.onloadedmetadata = function () {
+                timelineSlider.max = player.duration;
+                durationTimeText.textContent = formatTime(player.duration);
+                player.play();
+            };
+
+            currentTrack.classList.add("playing-active");
+            stickyAudio.classList.add("show");
+        }
+
+        tracks.forEach((t, i) => {
+            t.querySelector(".play-card-btn")?.addEventListener("click", () => playIndex(i));
+        });
+
+        masterPlayPauseBtn.addEventListener("click", () => {
+            if (player.src) {
+                if (player.paused) {
+                    player.play();
+                } else {
+                    player.pause();
+                }
+            }
+        });
+
+        player.addEventListener("play", updatePlayPauseUI);
+        player.addEventListener("pause", updatePlayPauseUI);
+
+        player.addEventListener("timeupdate", () => {
+            if (!timelineSlider.classList.contains("user-seeking")) {
+                timelineSlider.value = player.currentTime;
+                currentTimeText.textContent = formatTime(player.currentTime);
+                const progress = (player.currentTime / player.duration) * 100;
+                timelineSlider.style.background = `linear-gradient(to right, #1db954 ${progress}%, #535353 ${progress}%)`;
+            }
+        });
+
+        timelineSlider.addEventListener("input", () => {
+            timelineSlider.classList.add("user-seeking");
+            currentTimeText.textContent = formatTime(timelineSlider.value);
+        });
+
+        timelineSlider.addEventListener("change", () => {
+            player.currentTime = timelineSlider.value;
+            timelineSlider.classList.remove("user-seeking");
+        });
+
+        player.volume = volumeSlider.value;
+        volumeSlider.style.background = `linear-gradient(to right, #1db954 ${volumeSlider.value * 100}%, #535353 ${volumeSlider.value * 100}%)`;
+
+        volumeSlider.addEventListener("input", (e) => {
+            const currentVol = e.target.value;
+            player.volume = currentVol;
+            volumeSlider.style.background = `linear-gradient(to right, #1db954 ${currentVol * 100}%, #535353 ${currentVol * 100}%)`;
+
+            if(currentVol == 0) {
+                volumeIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>`;
+            } else {
+                volumeIcon.innerHTML = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
+            }
+        });
+
+        backBtn.addEventListener("click", () => {
+            if (player.readyState >= 1) player.currentTime = Math.max(0, player.currentTime - 10);
+        });
+
+        forwardBtn.addEventListener("click", () => {
+            if (player.readyState >= 1 && player.duration) player.currentTime = Math.min(player.duration, player.currentTime + 10);
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if (tracks.length === 0) return;
+            const nextIndex = (index + 1) % tracks.length;
+            playIndex(nextIndex);
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (tracks.length === 0) return;
+            const prevIndex = (index - 1 + tracks.length) % tracks.length;
+            playIndex(prevIndex);
+        });
+
+        player.addEventListener("ended", () => { nextBtn.click(); });
+
+        closePlayerBtn.addEventListener("click", () => {
+            player.pause();
+            player.currentTime = 0;
+            stickyAudio.classList.remove("show");
+            tracks.forEach(t => t.classList.remove("playing-active"));
+        });
+    </script>
+{% endblock %}

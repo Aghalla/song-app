@@ -1,0 +1,231 @@
+/* کانتینر سراسری صفحه پروفایل */
+.profile-page-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 40px auto;
+    padding: 0 20px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+/* هدر پروفایل شیشه‌ای (Glassmorphism زغالی) */
+.card-glass-profile {
+    background: rgba(24, 24, 24, 0.65) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(29, 185, 84, 0.25) !important;
+    padding: 35px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* عکس پروفایل دایره‌ای */
+.info_profile .pic img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #1db954; /* مرز سبز اسپاتیفای */
+    box-shadow: 0 0 15px rgba(29, 185, 84, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.info_profile .pic img:hover {
+    transform: scale(1.04);
+}
+
+/* جزییات متون درون پروفایل */
+.info_profile .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #1db954;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.info_profile .info h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 15px 0;
+}
+
+.user-meta p {
+    font-size: 0.95rem;
+    color: #b3b3b3;
+    margin: 6px 0;
+}
+
+.user-meta p strong {
+    color: #ffffff;
+}
+
+.bio-text {
+    margin-top: 10px !important;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* بخش چیدمان منوی دکمه‌ها (Grid ریسپانسیو) */
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+/* استایل کپسول‌های شیشه‌ای دکمه‌ها */
+.btn-spotify-menu {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: right;
+}
+
+.btn-spotify-menu a {
+    display: block;
+    padding: 18px 20px;
+    color: #ffffff !important;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+/* هم‌ترازی افقی متن و آیکون باهم */
+.btn-text-layout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* رنگ آیکون‌ها بر پایه کلاس */
+.spotify-svg {
+    color: #1db954; /* آیکون‌های سبز */
+}
+
+.spotify-svg-heart {
+    color: #e91429; /* قلب قرمز */
+}
+
+/* هوور دکمه‌های منو شبیه به کارت‌های لیست پخش اسپاتیفای */
+.btn-spotify-menu:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(29, 185, 84, 0.4) !important;
+    transform: translateY(-2px);
+}
+
+/* منطقه دکمه‌های پایانی ویرایش و خروج */
+.editing-zone {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 30px;
+}
+
+/* دکمه ویرایش پروفایل */
+.btn-edit-profile, .btn-logout-profile {
+    background: transparent !important;
+    border-radius: 50px; /* کپسولی کامل */
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-edit-profile {
+    border: 1px solid #727272 !important;
+}
+
+.btn-edit-profile a {
+    display: block;
+    padding: 10px 24px;
+    color: #ffffff !important;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.btn-edit-profile:hover {
+    border-color: #ffffff !important;
+    transform: scale(1.03);
+}
+
+/* دکمه قرمز هشدار دهنده خروج از اکانت */
+.btn-logout-profile {
+    border: 1px solid rgba(233, 20, 41, 0.5) !important;
+}
+
+.btn-logout-profile a {
+    display: block;
+    padding: 10px 24px;
+    color: #e91429 !important; /* متن قرمز */
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.btn-logout-profile:hover {
+    background: rgba(233, 20, 41, 0.1) !important;
+    border-color: #e91429 !important;
+    transform: scale(1.03);
+}
+
+/* 📱 کدهای اختصاصی برای نمایش ایده‌آل در انواع موبایل */
+@media (max-width: 768px) {
+    .profile-page-container {
+        margin: 20px auto;
+    }
+
+    .card-glass-profile {
+        flex-direction: column; /* تبدیل چیدمان افقی پروفایل به عمودی در گوشی */
+        text-align: center;
+        padding: 25px 15px;
+        gap: 15px;
+    }
+
+    .info_profile .info {
+        align-items: center;
+    }
+
+    .info_profile .info h1 {
+        font-size: 1.8rem;
+    }
+
+    .music-grid {
+        grid-template-columns: 100%; /* تک ستونه شدن تمام دکمه‌ها روی موبایل */
+        gap: 10px;
+    }
+
+    .btn-spotify-menu a {
+        padding: 15px 16px;
+    }
+
+    .editing-zone {
+        flex-direction: column; /* زیر هم رفتن دکمه‌های ویرایش و خروج روی گوشی */
+        gap: 12px;
+    }
+
+    .btn-edit-profile, .btn-logout-profile {
+        width: 100%;
+    }
+
+    .btn-edit-profile a, .btn-logout-profile a {
+        padding: 12px 0;
+        text-align: center;
+    }
+
+    .btn-text-layout {
+        justify-content: center; /* وسط چین شدن محتوای دکمه‌ها در موبایل */
+    }
+}

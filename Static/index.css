@@ -1,0 +1,406 @@
+/* ==========================================================================
+   ۱. تنظیمات و متغیرهای اصلی صفحات پروژه‌ SuniQ
+   ========================================================================== */
+.mymusic-page-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 40px auto 140px auto;
+    padding: 0 30px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.home-section-container {
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.section-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header-flex h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin: 0;
+}
+
+.see-more-link {
+    color: #1db954;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+.see-more-link:hover {
+    text-decoration: underline;
+    color: #1ed760;
+}
+
+/* ==========================================================================
+   ۲. مهندسی اسلایدر افقی موزیک‌ها و آلبوم‌ها (چرخش بدون شکست صفحه چپ/راست)
+   ========================================================================== */
+.horizontal-scroll-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+/* مخفی کردن اسکرول‌بار مرورگرها جهت زیبایی */
+.horizontal-scroll-slider::-webkit-scrollbar {
+    height: 6px;
+}
+.horizontal-scroll-slider::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.slider-music-card {
+    background: rgba(30, 30, 30, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    min-width: 210px;
+    max-width: 210px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.slider-music-card:hover {
+    background: rgba(45, 45, 45, 0.7);
+    transform: translateY(-5px);
+}
+
+.slider-cover-wrap {
+    width: 100%;
+    aspect-ratio: 1/1;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #181818;
+}
+
+.slider-cover-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.quick-play-hover-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.25s ease;
+}
+
+.slider-music-card:hover .quick-play-hover-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slider-card-info {
+    margin-top: 12px;
+    text-align: right;
+    flex-grow: 1;
+}
+
+.slider-card-info h3 {
+    margin: 0 0 6px 0;
+    font-size: 1rem;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.slider-card-info a { text-decoration: none; color: inherit; }
+
+.slider-artist {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #b3b3b3;
+}
+
+.slider-like-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.like-button, .save-button {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    padding: 0;
+}
+
+/* ==========================================================================
+   ۳. استایل شبکه‌بندی ۴ تایی سبک‌ها (کادرهای داینامیک رنگی)
+   ========================================================================== */
+.genres-four-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.genre-color-card {
+    text-decoration: none;
+    border: 2px solid #535353; /* توسط جاوااسکریپت رنگی می‌شود */
+    border-radius: 12px;
+    background: rgba(25, 25, 25, 0.6);
+    padding: 22px 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.genre-color-card button {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* ==========================================================================
+   ۴. استایل شبکه‌بندی ۴ تایی کاربران معروف و فیکس لایو فالو
+   ========================================================================== */
+.users-four-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+.user-popular-card {
+    background: rgba(30, 30, 30, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.25s ease;
+}
+.user-popular-card:hover {
+    background: rgba(45, 45, 45, 0.6);
+    border-color: rgba(29, 185, 84, 0.2);
+}
+
+.user-avatar-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+.user-avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+.user-card-details h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.05rem;
+    color: #ffffff;
+}
+.user-card-details a { text-decoration: none; color: inherit; }
+
+.user-followers-sub {
+    margin: 0 0 14px 0;
+    font-size: 0.85rem;
+    color: #b3b3b3;
+}
+
+.profile-follow-action-btn {
+    background: #ffffff;
+    border: none;
+    color: #121212;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    max-width: 120px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.profile-follow-action-btn:hover {
+    transform: scale(1.04);
+    background: #1db954;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   ۵. فونداسیون پلیر چسبان شیشه‌ای ۳ بخشی SuniQ
+   ========================================================================== */
+.sticky-player-glass {
+    position: fixed !important;
+    bottom: -130px;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    background: rgba(18, 18, 18, 0.96) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 30px;
+    transition: bottom 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999999 !important;
+    direction: ltr !important;
+    box-sizing: border-box;
+}
+.sticky-player-glass.show { bottom: 0 !important; }
+
+.close-player-btn {
+    position: absolute;
+    top: 8px; left: 15px;
+    background: transparent; border: none; color: #a7a7a7;
+    cursor: pointer; padding: 5px; border-radius: 50%;
+}
+.close-player-btn:hover { color: #ffffff; }
+
+.player-controls-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+.volume-control-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 150px;
+    color: #b3b3b3;
+}
+.volume-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 90px; height: 4px; border-radius: 10px;
+    background: #535353; outline: none; cursor: pointer;
+}
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 10px; height: 10px;
+    border-radius: 50%; background: #ffffff;
+}
+
+.center-nav-buttons { display: flex; align-items: center; gap: 12px; }
+
+.master-play-pause-btn {
+    background: #ffffff; border: none; color: #121212;
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s;
+}
+.master-play-pause-btn:hover { transform: scale(1.06); background: #1db954; color: #ffffff; }
+
+.player-seek-btn { background: transparent; border: none; color: #b3b3b3; cursor: pointer; padding: 8px; }
+.player-seek-btn:hover { color: #1db954; }
+
+.custom-timeline-container { flex: 1; display: flex; align-items: center; gap: 12px; max-width: 500px; }
+.time-stamp { font-size: 0.8rem; color: #a7a7a7; min-width: 35px; font-family: monospace; }
+.modern-slider { flex: 1; -webkit-appearance: none; appearance: none; height: 5px; border-radius: 50px; background: #535353; outline: none; }
+.modern-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ffffff; }
+
+.empty-msg { color: #b3b3b3; font-size: 0.95rem; padding: 20px; text-align: right; }
+
+/* ==========================================================================
+   ۶. ریسپانسیو بخش‌ها در رزولوشن‌های موبایل
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .genres-four-grid { grid-template-columns: repeat(3, 1fr); }
+    .users-four-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+    .mymusic-page-wrapper { padding: 0 15px; }
+    .genres-four-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .users-four-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .player-controls-wrapper { flex-direction: column; gap: 12px; }
+    .volume-control-container { justify-content: center; width: 100%; }
+    .custom-timeline-container { max-width: 100%; width: 100%; }
+}
+
+/* ==========================================================================
+   ۷. استایل ناوبری دکمه‌های چپ/راست اسلایدرها و تراز سربرگ
+   ========================================================================== */
+.nav-and-more-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.slider-nav-buttons {
+    display: flex;
+    gap: 10px;
+    direction: ltr; /* تراز دکمه‌ها از چپ به راست */
+}
+
+.slide-nav-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e8e8f0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    padding: 0;
+}
+
+/* چرخاندن آیکون اختصاصی ورودی شما برای دکمه‌ی بعدی (سمت چپ در لایه بصری) */
+.slide-nav-btn.next svg {
+    transform: rotate(180deg);
+}
+
+.slide-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #1db954;
+    color: #1db954;
+    transform: scale(1.08);
+}
+
+/* ==========================================================================
+   ۸. افکت امضا: هاله درخشان و مرز سبز رنگ کاور آهنگ در حال پخش
+   ========================================================================== */
+.music-card-img {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 2px solid transparent; /* پایداری ابعاد تصویر قبل از ایجاد کادر */
+}
+
+.music-card-img.currently-playing-glow {
+    border: 3px solid #00fd5f !important;
+    box-shadow: 0 0 20px rgba(0, 255, 85, 0.8) !important;
+    transform: scale(1.04);
+}

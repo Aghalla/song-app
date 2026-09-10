@@ -1,0 +1,169 @@
+/* ==========================================================================
+   ۱. کانتینر اصلی و کارت شیشه‌ای (تم اصلی پروژه SuniQ)
+   ========================================================================== */
+.form-page-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 60px auto 140px auto;
+    padding: 0 20px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+.glass-form-card {
+    background: rgba(18, 18, 18, 0.75) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   ۲. بخش هدر فرم
+   ========================================================================== */
+.form-header-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.form-icon-circle {
+    width: 60px;
+    height: 60px;
+    background: rgba(29, 185, 84, 0.1);
+    border: 1px solid rgba(29, 185, 84, 0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.form-header-area h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.form-subtitle {
+    margin: 8px 0 0 0;
+    font-size: 0.9rem;
+    color: #b3b3b3;
+}
+
+/* ==========================================================================
+   ۳. استایل‌دهی هوشمند به فیلدهای جنگو (as_p)
+   ========================================================================== */
+.form-fields-container p {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 22px;
+    width: 100%;
+}
+
+/* لیبل‌ها */
+.form-fields-container p label {
+    font-size: 0.95rem;
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+/* فیلدهای متنی و سلکتورها */
+.form-fields-container p input[type="text"],
+.form-fields-container p input[type="number"],
+.form-fields-container p select,
+.form-fields-container p textarea {
+    width: 100%;
+    background: rgba(35, 35, 35, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+}
+
+/* حالت فوکوس روی فیلدها */
+.form-fields-container p input[type="text"]:focus,
+.form-fields-container p input[type="number"]:focus,
+.form-fields-container p select:focus,
+.form-fields-container p textarea:focus {
+    outline: none;
+    border-color: #1db954 !important;
+    background: rgba(45, 45, 45, 0.8) !important;
+    box-shadow: 0 0 10px rgba(29, 185, 84, 0.15);
+}
+
+/* فیلد انتخاب فایل (کاور آلبوم) */
+.form-fields-container p input[type="file"] {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+/* هماهنگی فیلد امپتی یا راهنما در ابزار جنگو */
+.helptext {
+    font-size: 0.8rem;
+    color: #727272;
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   ۴. دکمه ثبت فرم (تمامی امضاهای SuniQ)
+   ========================================================================== */
+.form-actions-area {
+    margin-top: 35px;
+    width: 100%;
+}
+
+.suniq-submit-btn {
+    width: 100%;
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    padding: 14px 20px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    font-family: inherit;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.suniq-submit-btn:hover {
+    background: #1ed760;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(29, 185, 84, 0.45);
+}
+
+.suniq-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   ۵. واکنش‌گرایی (Responsive)
+   ========================================================================== */
+@media (max-width: 600px) {
+    .glass-form-card {
+        padding: 25px 20px;
+    }
+    .form-header-area h2 {
+        font-size: 1.35rem;
+    }
+}

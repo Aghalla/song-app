@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}دنبال‌شونده‌ها{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Account/follow.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="follow-page-wrapper">
+
+        <div class="page-header-title">
+            <h1>لیست دنبال‌شونده‌ها</h1>
+            <p>افرادی که توسط شما دنبال می‌شوند ({{ following|length }} کاربر)</p>
+        </div>
+
+        <div class="follow-triple-grid">
+            {% for user_f in following %}
+                <div class="user-follow-card">
+
+                    <div class="profile-avatar-box">
+                        {% if user_f.profile_pic %}
+                            <img src="{{ user_f.profile_pic.url }}" alt="{{ user_f.username }}">
+                        {% else %}
+                            <img src="{{ MEDIA_URL }}/Media/dfulte/profile.jpg" alt="پیش‌فرض">
+                        {% endif %}
+                    </div>
+
+                    <div class="dtail">
+                        <a href="{% url 'Music:profile-username' user_f.username %}" class="user-link">
+                            <h1>{{ user_f.username }}</h1>
+                        </a>
+
+                        <p class="user-full-name">
+                            {% if user_f.first_name %}{{ user_f.first_name }}{% endif %}
+                            {% if user_f.last_name %} {{ user_f.last_name }}{% endif %}
+                            {% if not user_f.first_name and not user_f.last_name %}بدون نام{% endif %}
+                        </p>
+
+                        <p class="followers-stats">
+                            <span class="follower-count">{{ user_f.followers.count }}</span> دنبال‌کننده
+                        </p>
+
+                        {% if user_f.bio %}
+                            <p class="user-bio-txt" title="{{ user_f.bio }}">{{ user_f.bio }}</p>
+                        {% else %}
+                            <p class="user-bio-txt empty-bio">بدون بیوگرافی</p>
+                        {% endif %}
+
+                        <div class="following-action-wrapper">
+                            <button class="follow-btn {% if request.user in user_f.followers.all %}is-following{% endif %}" data-url="{% url 'profile:following' user_f.username %}">
+                                {% if request.user in user_f.followers.all %}
+                                    آنفالو
+                                {% else %}
+                                    فالو
+                                {% endif %}
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            {% empty %}
+                <div class="empty-follow-box">
+                    <p>شما در حال حاضر کسی را دنبال نمی‌کنید.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        const csrftoken = "{{ csrf_token }}";
+
+        document.querySelectorAll('.follow-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+                const currentButton = this;
+
+                if (!url) {
+                    console.error("آدرس URL برای فالو یافت نشد.");
+                    return;
+                }
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('خطا در پاسخ سرور');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'ok') {
+                        if (data.following) {
+                            currentButton.innerText = 'آنفالو';
+                            currentButton.classList.add('is-following');
+                        } else {
+                            currentButton.innerText = 'فالو';
+                            currentButton.classList.remove('is-following');
+                        }
+
+                        // پیدا کردن نزدیک‌ترین باکس اطلاعات و آپدیت شمارنده
+                        const cardBox = currentButton.closest('.user-follow-card');
+                        if (cardBox) {
+                            const countSpan = cardBox.querySelector('.follower-count');
+                            if (countSpan) {
+                                countSpan.innerText = data.follower_count;
+                            }
+                        }
+                    } else {
+                        alert('خطا: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('مشکلی در برقراری ارتباط با سرور به وجود آمد.');
+                });
+            });
+        });
+    </script>
+{% endblock %}

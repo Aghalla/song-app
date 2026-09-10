@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}آلبوم‌ها | SuniQ{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'albums/list_album.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="mymusic-page-wrapper">
+
+    <div class="album-page-header">
+        <h1>پلی لیست های منتشر شده:  </h1>
+        <p class="sub-title"></p>
+    </div>
+
+    <div class="albums-grid-container">
+        {% for album in albums %}
+            <div class="album-card">
+
+                <div class="cover-container">
+                    {% if album.cover_album %}
+                        <img src="{{ album.cover_album.url }}" alt="کاور آلبوم {{ album.title }}" class="track-cover">
+                    {% else %}
+                        <img src="{{ MEDIA_URL }}/Media/dfulte/Album.jpg" alt="کاور پیش‌فرض" class="track-cover">
+                    {% endif %}
+
+                    <a href="{% url 'Music:dtail-albums' album.id %}" class="play-card-btn" title="مشاهده آلبوم">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M6 4v16a1 1 0 0 0 1.524 .852l11 -8a1 1 0 0 0 0 -1.704l-11 -8a1 1 0 0 0 -1.524 .852z" />
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="card-meta-data">
+                    <div class="text-details">
+                        <h2>
+                            <a href="{% url 'Music:dtail-albums' album.id %}">{{ album.title }}</a>
+                        </h2>
+
+                        <p class="artist-name">
+                            {% if album.artist_name %}
+                                {{ album.artist_name }}
+                            {% elif album.musics.last.artist_name %}
+                                {{ album.musics.last.artist_name }}
+                            {% else %}
+                                هنرمند ناشناس
+                            {% endif %}
+                        </p>
+
+                        <p class="uploader-txt">
+                            توسط: <span><a href="{% url 'Music:profile-username' album.user.username %}">{{ album.user }}</a></span>
+                        </p>
+                    </div>
+
+                    {% if request.user != album.user %}
+                        <div class="save-action-container">
+                            <button class="save-button" data-album-id="{{ album.id }}" style="background: transparent; border: none; color: #b3b3b3; cursor: pointer; padding: 5px; transition: color 0.2s;">
+                                <span class="save-text">
+                                    {% if request.user in album.saved_by.all %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#1db954" class="icon-bookmark-filled">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M14 2a5 5 0 0 1 5 5v14a1 1 0 0 1 -1.555 .832l-5.445 -3.63l-5.444 3.63a1 1 0 0 1 -1.55 -.72l-.006 -.112v-14a5 5 0 0 1 5 -5h4z"/>
+                                        </svg>
+                                    {% else %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-bookmark-outline">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"/>
+                                        </svg>
+                                    {% endif %}
+                                </span>
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        {% empty %}
+            <div class="empty-msg">
+                هیچ آلبومی در حال حاضر برای نمایش وجود ندارد.
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="web-page" style="margin-top: 5px; width: 100%; display: flex; justify-content: center;">
+        {% include 'web-page.html' %}
+    </div>
+</div>
+
+<script>
+    const csrftoken = "{{ csrf_token }}";
+
+    document.querySelectorAll(".save-button").forEach(button => {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const albumId = this.dataset.albumId;
+
+            fetch(`/album/${albumId}/save/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": csrftoken,
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const icon = this.querySelector(".save-text");
+                if (data.saved) {
+                    icon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#1db954">
+                        <path d="M14 2a5 5 0 0 1 5 5v14a1 1 0 0 1 -1.555 .832l-5.445 -3.63l-5.444 3.63a1 1 0 0 1 -1.55 -.72v-14a5 5 0 0 1 5 -5h4z"/>
+                    </svg>`;
+                } else {
+                    icon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4"/>
+                    </svg>`;
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

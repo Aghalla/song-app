@@ -1,0 +1,532 @@
+/* ==========================================================================
+   ۱. ریشه اصلی قالب و ساختار کانتینر (عریض شده برای مانیتورهای بزرگ)
+   ========================================================================== */
+.mymusic-page-wrapper {
+    width: 100%;
+    max-width: 1400px; /* تنظیم روی ۱۴۰۰ پیکسل برای پر کردن کامل مانیتورهای بزرگ */
+    margin: 40px auto 120px auto;
+    padding: 0 30px;
+    direction: rtl;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   ۲. کادر مستطیلی شیشه‌ای موزیک اصلی (بالای صفحه)
+   ========================================================================== */
+.main-music-rectangle-card {
+    background: rgba(30, 30, 30, 0.75) !important; /* 🌟 تیره و واضه‌تر شدن بک‌گراند برای تفکیک از پس‌زمینه اصلی */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08) !important; /* 🌟 روشن‌تر شدن بردر شیشه‌ای */
+    border-radius: 12px;
+    padding: 24px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5); /* 🌟 سایه عمیق‌تر برای ایجاد عمق */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.main-card-right-side {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.main-cover-box {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+}
+
+.main-cover-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main-details-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.genre-badge {
+    background: rgba(29, 185, 84, 0.15);
+    color: #1db954;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.main-details-box h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+.artist-name-txt {
+    font-size: 1.05rem;
+    color: #b3b3b3;
+    margin: 4px 0 10px 0;
+}
+
+.uploader-and-time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #b3b3b3;
+}
+
+.uploader-and-time a {
+    color: #1db954;
+    text-decoration: none;
+}
+.uploader-and-time a:hover {
+    text-decoration: underline;
+}
+
+.divider-dot {
+    color: #535353;
+}
+
+.like-container-main {
+    margin-top: 10px;
+}
+
+.main-heart-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+
+/* دکمه پلی اصلی سمت چپ کادر بالا */
+.force-visible-btn {
+    position: static !important;
+    opacity: 1 !important;
+    transform: none !important;
+    background: #1db954 !important;
+    width: 54px !important;
+    height: 54px !important;
+}
+.force-visible-btn:hover {
+    transform: scale(1.06) !important;
+}
+
+/* ==========================================================================
+   ۳. اسلایدرهای افقی (بخش‌های پایینی)
+   ========================================================================= */
+.sliders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.slider-section-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-header h2 {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin: 0;
+}
+
+.slider-navigation-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.slide-nav-btn {
+    background: #242424;
+    border: none;
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+.slide-nav-btn:hover {
+    background: #1db954;
+}
+
+.slider-viewport {
+    width: 100%;
+    overflow: hidden;
+}
+
+.horizontal-music-track {
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 15px 5px;
+    scrollbar-width: none; /* مخفی کردن اسکرول‌بار در فایرفاکس */
+    -webkit-overflow-scrolling: touch; /* اسکرول نرم لمسی در گوشی */
+}
+.horizontal-music-track::-webkit-scrollbar {
+    display: none; /* مخفی کردن اسکرول‌بار در کروم و ادج */
+}
+
+/* ==========================================================================
+   ۴. کارت‌های اسلایدر و تصاویر مربعی یکدست
+   ========================================================================== */
+.music-card-square {
+    flex: 0 0 220px; /* اندازه استاندارد کارت‌ها در مانیتور بزرگ */
+    background: rgba(32, 32, 32, 0.7) !important; /* 🌟 تغییر رنگ پایه کارت‌ها به خاکستری تیره متمایز */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07) !important; /* 🌟 بردر واضح‌تر */
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.music-card-square:hover {
+    background: rgba(45, 45, 45, 0.85) !important; /* 🌟 روشن‌تر شدن کارت در زمان هاور برای کنتراست بهتر */
+    border-color: rgba(29, 185, 84, 0.4) !important;
+    transform: translateY(-5px);
+}
+
+/* 🟢 افکت سبز مایل به ملایم برای کادر آهنگ در حال پخش (دقیقاً مشابه صفحه موسیقی من) */
+.playing-active {
+    background: rgba(29, 185, 84, 0.1) !important; /* 🌟 کمی افزایش غلظت رنگ در حالت پخش */
+    border-color: rgba(29, 185, 84, 0.6) !important;
+    box-shadow: 0 0 18px rgba(29, 185, 84, 0.2);
+}
+
+/* 📐 کانتینر کاور (اجبار به ساختار کاملاً مربعی ۱ در ۱ بدون تغییر شکل) */
+.cover-container {
+    width: 100%;
+    aspect-ratio: 1 / 1 !important;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    background: #181818;
+}
+
+.track-cover {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* جلوگیری از بیضی یا مستطیل شدن کاورها */
+}
+
+/* دکمه دایره‌ای سبز روی عکس هنگام هوور یا پخش */
+.play-card-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: #1db954;
+    border: none;
+    color: #ffffff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
+}
+
+.music-card-square:hover .play-card-btn,
+.playing-active .play-card-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card-meta-data {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.text-details {
+    overflow: hidden;
+    flex: 1;
+}
+
+.text-details h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.text-details a {
+    text-decoration: none;
+}
+
+.text-details p {
+    margin: 5px 0 0 0;
+    font-size: 0.85rem;
+    color: #b3b3b3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-heart {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+/* ==========================================================================
+   ۵. پلیر چسبان پایین صفحه (کنترل‌ها و اسلایدر زمان)
+   ========================================================================== */
+.sticky-player-glass {
+    position: fixed;
+    bottom: -120px;
+    left: 0;
+    right: 0;
+    background: rgba(22, 22, 22, 0.98) !important; /* 🌟 اوپاسیتی بالا برای جلوگیری از تداخل متن‌های زیرین */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 25px 15px 25px;
+    transition: bottom 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999;
+    direction: ltr !important; /* پلیر به خاطر ساختار خط زمان همیشه چپ‌چین است */
+}
+
+.sticky-player-glass.show {
+    bottom: 0;
+}
+
+.close-player-btn {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    background: transparent;
+    border: none;
+    color: #a7a7a7;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-player-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.player-controls-wrapper {
+    max-width: 850px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.master-play-pause-btn {
+    background: #ffffff;
+    border: none;
+    color: #121212;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+.master-play-pause-btn:hover {
+    transform: scale(1.06);
+    background: #1db954;
+    color: #ffffff;
+}
+
+.player-seek-btn {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+.player-seek-btn:hover {
+    color: #1db954;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-timeline-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 10px;
+}
+
+.time-stamp {
+    font-size: 0.8rem;
+    color: #a7a7a7;
+    min-width: 35px;
+    font-family: monospace;
+}
+
+.modern-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 5px;
+    border-radius: 50px;
+    background: #535353;
+    outline: none;
+    cursor: pointer;
+    transition: height 0.1s ease;
+}
+.modern-slider:hover {
+    height: 7px;
+}
+
+.modern-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+.modern-slider:hover::-webkit-slider-thumb {
+    opacity: 1;
+}
+
+.modern-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+.modern-slider:hover::-moz-range-thumb {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   ۶. متفرقه‌ها (جداکننده‌ها و پیام‌ها)
+   ========================================================================== */
+.space1 hr {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 30px 0;
+}
+
+.empty-msg {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   ۷. بخش کاملاً ریسپانسیو و واکنش‌گرا (موبایل و تبلت)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .mymusic-page-wrapper {
+        padding: 0 20px;
+    }
+    .music-card-square {
+        flex: 0 0 190px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mymusic-page-wrapper {
+        padding: 0 15px;
+        margin: 20px auto 140px auto;
+    }
+
+    .main-music-rectangle-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .main-card-right-side {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .main-cover-box {
+        width: 130px;
+        height: 130px;
+        border-radius: 8px;
+    }
+
+    .main-card-left-side {
+        align-self: flex-end;
+        margin-top: -10px;
+    }
+
+    .music-card-square {
+        flex: 0 0 165px;
+        padding: 12px;
+    }
+
+    .text-details h2 {
+        font-size: 0.95rem;
+    }
+}

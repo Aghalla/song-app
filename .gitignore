@@ -1,0 +1,43 @@
+# Environment variables
+.env
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+*.egg
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# Media files (user uploads)
+Media/
+
+# Static files (collectstatic output)
+staticfiles/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Logs
+*.log
