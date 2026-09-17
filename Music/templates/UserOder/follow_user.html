@@ -23,7 +23,9 @@
                         {% if user_f.profile_pic %}
                             <img src="{{ user_f.profile_pic.url }}" alt="{{ user_f.username }}">
                         {% else %}
-                            <img src="{{ MEDIA_URL }}/Media/dfulte/profile.jpg" alt="پیش‌فرض">
+                            <div class="default-svg-placeholder profile-default" aria-label="Default profile">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+                            </div>
                         {% endif %}
                     </div>
 

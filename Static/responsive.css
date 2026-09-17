@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Global Mobile Responsive Overrides - SuniQ
+   Ensures all pages look correct on phone (viewport already added)
+   ========================================================================== */
+
+/* Prevent horizontal scroll */
+html, body { overflow-x: hidden; }
+
+/* Make all main wrappers use full width on mobile with safe padding */
+@media (max-width: 768px) {
+    .mymusic-page-wrapper,
+    .musics-archive-wrapper,
+    .profile-page-wrapper,
+    .larg,
+    .larg-header {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 100vw !important;
+        box-sizing: border-box;
+    }
+    /* Header: stack nicely */
+    .larg-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 12px !important;
+    }
+    .left-nav-group {
+        width: 100%;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        margin-top: 6px !important;
+    }
+    .search-box { flex: 1; min-width: 120px; }
+    .search-form input[type="text"] { width: 100% !important; min-width: 0; }
+    .search-form input[type="text"]:focus { width: 100% !important; }
+
+    /* Slider cards smaller on phone */
+    .slider-music-card { min-width: 150px !important; max-width: 150px !important; padding: 10px !important; }
+    .slider-cover-wrap { border-radius: 6px !important; }
+    .quick-play-hover-btn { opacity: 1 !important; transform: none !important; width: 34px !important; height: 34px !important; }
+
+    /* Grids collapse to 1-2 columns */
+    .genres-four-grid,
+    .users-four-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .musics-triple-grid-container { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .archive-rectangle-music-card { flex-direction: column !important; align-items: flex-start !important; }
+    .music-cover-wrapper { width: 100% !important; height: auto !important; aspect-ratio: 1/1 !important; }
+    .music-cover-wrapper .default-svg-placeholder { aspect-ratio: 1/1; }
+
+    /* Main detail card stack */
+    .main-music-rectangle-card { flex-direction: column !important; align-items: flex-start !important; }
+    .main-card-right-side { width: 100% !important; }
+    .main-cover-box { width: 100% !important; max-width: 220px !important; height: auto !important; aspect-ratio: 1/1 !important; }
+    .main-cover-box .default-svg-placeholder { aspect-ratio: 1/1; }
+
+    /* Player: stack controls */
+    .sticky-player-glass { padding: 12px 10px !important; }
+    .player-controls-wrapper { flex-direction: column !important; gap: 10px !important; }
+    .center-nav-buttons { order: 1; }
+    .custom-timeline-container { order: 2; width: 100% !important; max-width: 100% !important; }
+    .volume-control-container { order: 3; width: 100% !important; justify-content: center !important; }
+
+    /* Forms full width */
+    .profile-form-container,
+    .form-grid-layout { padding: 16px !important; }
+    .form-grid-layout { grid-template-columns: 1fr !important; }
+
+    /* Text truncation safety */
+    h1, h2, h3 { word-break: break-word; }
+}
+
+/* Very small phones 480px */
+@media (max-width: 480px) {
+    .slider-music-card { min-width: 135px !important; max-width: 135px !important; }
+    .genres-four-grid { grid-template-columns: 1fr !important; }
+    .users-four-grid { grid-template-columns: 1fr !important; }
+    .user-popular-card { flex-direction: row !important; gap: 12px; text-align: right !important; }
+    .user-avatar-wrapper { width: 56px !important; height: 56px !important; margin-bottom: 0 !important; }
+    .section-header-flex h2 { font-size: 1.1rem !important; }
+    .title-site h1 { font-size: 1.4rem !important; }
+    .auth-links { font-size: 0.85rem !important; }
+}
+
+/* Tablet 768-1024 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .musics-triple-grid-container { grid-template-columns: repeat(2, 1fr) !important; }
+    .genres-four-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    .users-four-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}

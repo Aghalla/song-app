@@ -23,7 +23,9 @@
                         {% if request.user.profile_pic %}
                             <img src="{{ request.user.profile_pic.url }}" alt="عکس پروفایل فعلی" class="current-avatar">
                         {% else %}
-                            <img src="{{ MEDIA_URL }}/Media/dfulte/user-placeholder.png" alt="بدون عکس" class="current-avatar">
+                            <div class="default-svg-placeholder profile-default" aria-label="Default profile">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+                            </div>
                         {% endif %}
                     </div>
 
@@ -66,13 +68,13 @@
                         {% endif %}
                     </div>
 
-                    <div class="form-field-group phone_num">
-                        <label for="{{ user_form.phone.id_for_label }}">شماره همراه</label>
-                        {{ user_form.phone }}
-                        {% if user_form.phone.errors %}
-                            <span class="field-error-msg">{{ user_form.phone.errors.0 }}</span>
-                        {% endif %}
-                    </div>
+                    {# <div class="form-field-group phone_num">  # COMMENTED: phone disabled per request #}
+                    {#     <label for="{{ user_form.phone.id_for_label }}">شماره همراه</label> #}
+                    {#     {{ user_form.phone }} #}
+                    {#     {% if user_form.phone.errors %} #}
+                    {#         <span class="field-error-msg">{{ user_form.phone.errors.0 }}</span> #}
+                    {#     {% endif %} #}
+                    {# </div>  #}
 
                     <div class="form-field-group email">
                         <label for="{{ user_form.email.id_for_label }}">ایمیل</label>

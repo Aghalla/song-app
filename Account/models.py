@@ -14,7 +14,8 @@ def user_upload_pic(instance, filename):
 
 class User(AbstractUser):
     email = models.EmailField(blank=False, null=False)
-    phone = models.CharField(max_length=11, blank=True, null=True)
+    # phone = models.CharField(max_length=11, blank=True, null=True)  # COMMENTED: phone feature disabled per request (kept for future)
+    phone = models.CharField(max_length=11, blank=True, null=True)  # kept but not used - logic commented elsewhere
     profile_pic = ResizedImageField(upload_to=user_upload_pic, blank=True, null=True)
     bio = models.CharField(max_length=259, blank=True, null=True)
     following = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='followers')

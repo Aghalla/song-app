@@ -11,33 +11,28 @@ class ChangeUserForm(UserChangeForm):
         model = User
         fields = [
             'username',
-            'phone',
+            # 'phone',  # COMMENTED: phone disabled per request  # COMMENTED: phone disabled  # COMMENTED: phone disabled
             'is_staff',
             'is_active',
             'is_superuser',
             'joined_at',
         ]
 
-    def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
-        if self.instance.pk:
-            if User.objects.filter(phone=phone).exclude(pk=self.instance.pk).exists():
-                raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")
-
-        else:
-            if User.objects.filter(phone=phone).exists():
-                raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")
-
-        if not phone.isdigit():
-            raise forms.ValidationError("Phone number must be a digit")
-
-        if not phone.startswith('09'):
-            raise forms.ValidationError("Phone number must be 09 digits")
-
-        if len(phone) != 11:
-            raise forms.ValidationError("Phone number must be 11 digits")
-
-        return phone
+    # def clean_phone(self):  # COMMENTED: phone validation disabled per request
+    #     phone = self.cleaned_data.get('phone')  # COMMENTED: phone disabled  # COMMENTED: phone disabled
+    #     if self.instance.pk:
+    #         if User.objects.filter(phone=phone).exclude(pk=self.instance.pk).exists():
+    #             raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")
+    #     else:
+    #         if User.objects.filter(phone=phone).exists():
+    #             raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")
+    #     if not phone.isdigit():
+    #         raise forms.ValidationError("Phone number must be a digit")
+    #     if not phone.startswith('09'):
+    #         raise forms.ValidationError("Phone number must be 09 digits")
+    #     if len(phone) != 11:
+    #         raise forms.ValidationError("Phone number must be 11 digits")
+    #     return phone
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -57,32 +52,32 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = [
             'username',
-            'phone',
+            # 'phone',  # COMMENTED: phone disabled per request  # COMMENTED: phone disabled  # COMMENTED: phone disabled
             'is_staff',
             'is_active',
             'is_superuser',
             'joined_at',
         ]
 
-    def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
-        if self.instance.pk:
-            if User.objects.filter(phone=phone).exclude(pk=self.instance.pk).exists():
-                raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")
-        else:
-            if User.objects.filter(phone=phone).exists():
-                raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")
+    # def clean_phone(self):  # COMMENTED: phone disabled per request
+        # phone = self.cleaned_data.get('phone')  # COMMENTED: phone disabled  # COMMENTED: phone disabled
+        # if self.instance.pk:  # COMMENTED
+            # if User.objects.filter(phone=phone).exclude(pk=self.instance.pk).exists():  # COMMENTED
+                # raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")  # COMMENTED
+        # else:  # COMMENTED
+            # if User.objects.filter(phone=phone).exists():  # COMMENTED
+                # raise forms.ValidationError("قبلا شماره تلفن استفاده شده است")  # COMMENTED
 
-        if not phone.isdigit():
-            raise forms.ValidationError("Phone number must be a digit")
+        # if not phone.isdigit():  # COMMENTED
+            # raise forms.ValidationError("Phone number must be a digit")  # COMMENTED
 
-        if not phone.startswith('09'):
-            raise forms.ValidationError("Phone number must be 09 digits")
+        # if not phone.startswith('09'):  # COMMENTED
+            # raise forms.ValidationError("Phone number must be 09 digits")  # COMMENTED
 
-        if len(phone) != 11:
-            raise forms.ValidationError("Phone number must be 11 digits")
+        # if len(phone) != 11:  # COMMENTED
+            # raise forms.ValidationError("Phone number must be 11 digits")  # COMMENTED
 
-        return phone
+        # return phone  # COMMENTED
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -105,7 +100,7 @@ class EditUserForm(forms.ModelForm):
         fields = [
             "profile_pic",
             "username",
-            "phone",
+            # "phone",  # COMMENTED: phone disabled  # COMMENTED: phone disabled
             "email",
             "first_name",
             "last_name",
@@ -131,11 +126,11 @@ class EditUserForm(forms.ModelForm):
             raise forms.ValidationError("این نام کاربری از قبل وجود دارد")
         return username
 
-    def clean_phone(self):
-        pohne = self.cleaned_data["phone"]
-        if User.objects.exclude(id=self.instance.id).filter(phone=pohne).exists():
-            raise forms.ValidationError("این شماره قبلا ثبت شده")
-        return pohne
+    # def clean_phone(self):  # COMMENTED: phone disabled per request
+        # pohne = self.cleaned_data["phone"]  # COMMENTED: phone disabled  # COMMENTED: phone disabled
+        # if User.objects.exclude(id=self.instance.id).filter(phone=pohne).exists():  # COMMENTED
+            # raise forms.ValidationError("این شماره قبلا ثبت شده")  # COMMENTED
+        # return pohne  # COMMENTED
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -150,7 +145,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ["username", "email", "phone"]
+        fields = ["username", "email"]  # , # "phone"  # COMMENTED  # COMMENTED: phone disabled
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -164,18 +159,18 @@ class SignUpForm(UserCreationForm):
             raise forms.ValidationError("این نام کاربری قبلا استفاده شده است")
         return username
 
-    def clean_phone(self):
-        phone = self.cleaned_data.get('phone')
-        if phone:
-            if User.objects.filter(phone=phone).exists():
-                raise forms.ValidationError("این شماره قبلا استفاده شده است")
-            if phone.isdigit():
-                raise forms.ValidationError("فقط باید عدد وارد کنید")
-            if not phone.startswith('09'):
-                raise forms.ValidationError("شماره همراه باید با 09 شروع شود")
-            if len(phone) != 11:
-                raise forms.ValidationError("باید عداد 11 رقم باشند")
-        return phone
+    # def clean_phone(self):  # COMMENTED: phone disabled per request
+        # phone = self.cleaned_data.get('phone')  # COMMENTED: phone disabled  # COMMENTED: phone disabled
+        # if phone:  # COMMENTED
+            # if User.objects.filter(phone=phone).exists():  # COMMENTED
+                # raise forms.ValidationError("این شماره قبلا استفاده شده است")  # COMMENTED
+            # if phone.isdigit():  # COMMENTED
+                # raise forms.ValidationError("فقط باید عدد وارد کنید")  # COMMENTED
+            # if not phone.startswith('09'):  # COMMENTED
+                # raise forms.ValidationError("شماره همراه باید با 09 شروع شود")  # COMMENTED
+            # if len(phone) != 11:  # COMMENTED
+                # raise forms.ValidationError("باید عداد 11 رقم باشند")  # COMMENTED
+        # return phone  # COMMENTED
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -186,8 +181,8 @@ class SignUpForm(UserCreationForm):
 
 class LoginForm(forms.Form):
     login_input = forms.CharField(
-        label="نام کاربری، ایمیل یا شماره تلفن",
-        widget=forms.TextInput(attrs={'placeholder': 'username, email or phone...'})
+        label="نام کاربری، ایمیل",  # , "یا شماره تلفن"  # COMMENTED: phone disabled
+        widget=forms.TextInput(attrs={'placeholder': 'username, email...'})  # , or phone  # COMMENTED: phone disabled
     )
     password = forms.CharField(
         label="رمز عبور",
@@ -203,8 +198,8 @@ class LoginForm(forms.Form):
 
             user = User.objects.filter(
                 Q(username=login_input) |
-                Q(email=login_input) |
-                Q(phone=login_input)
+                Q(email=login_input)
+                # | Q(phone=login_input)  # COMMENTED: phone disabled
             ).first()
 
             if user is None:
@@ -216,7 +211,7 @@ class LoginForm(forms.Form):
 
 
 class ResetPasswordForm(forms.Form):
-    input_validate = forms.CharField(label="ایمیل یا شماره تلفن")
+    input_validate = forms.CharField(label="ایمیل")  # , "یا شماره تلفن"  # COMMENTED: phone disabled
     otp = forms.CharField(max_length=5, label="کد",
                           widget=forms.TextInput(attrs={"placeholder": "کد ارسال شده برای شما"}), required=False)
 

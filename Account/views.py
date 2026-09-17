@@ -139,12 +139,12 @@ def register(request):
                         show_otp = True
                     except Exception as e:
                         messages.error(request, f"خطایی در ارسال ایمیل رخ داد: {e}")
-                else:
-                    print(f"SMS Subject: {subject}")
-                    print(f"SMS Code: {otp_code}")
-                    print(f"To: {recipient_list}")
-                    messages.success(request, "کد تایید پیامک شد .")
-                    show_otp = True
+                # else:  # COMMENTED: phone/SMS disabled per request
+                #     print(f"SMS Subject: {subject}")
+                #     print(f"SMS Code: {otp_code}")
+                #     print(f"To: {recipient_list}")
+                #     messages.success(request, "کد تایید پیامک شد .")
+                #     show_otp = True
 
         # --- مرحله دوم: تایید کد ---
         elif "verify_otp" in request.POST:
@@ -185,8 +185,11 @@ def password_change(request):
 
     if "@" in user_identyty:
         user = get_object_or_404(User, email=user_identyty)
-    else:
-        user = get_object_or_404(User, phone=user_identyty)
+    # else:  # COMMENTED: phone disabled per request
+    #     user = get_object_or_404(User, phone=user_identyty)
+    else:  # phone disabled - only email supported
+        messages.error(request, "فقط ایمیل پشتیبانی می‌شود")
+        return redirect('profile:register')
 
     if request.method == 'POST':
         form_chenge = SetPasswordForm(user=user, data=request.POST)
